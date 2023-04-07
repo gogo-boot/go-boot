@@ -76,11 +76,11 @@ dockers:
     #
     # Templates: allowed
     image_templates:
-      - "myuser/myimage:latest"
-      - "myuser/myimage:{{ .Tag }}"
-      - "myuser/myimage:v{{ .Major }}"
-      - "myuser/myimage:v{{ .Major }}.{{ .Minor }}"
-      - "gcr.io/myuser/myimage:latest"
+      - "jinwoo/go-web-template:latest"
+      - "jinwoo/go-web-template:{{ .Tag }}"
+      - "jinwoo/go-web-template:v{{ .Major }}"
+      - "jinwoo/go-web-template:v{{ .Major }}.{{ .Minor }}"
+      - "gcr.io/jinwoo/go-web-template:latest"
 
 
     # Skips the docker push.
