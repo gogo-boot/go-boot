@@ -83,15 +83,6 @@ dockers:
       - "gcr.io/myuser/myimage:latest"
 
 
-    # Skips the docker build.
-    # Could be useful if you want to skip building the windows docker image on
-    # linux, for example.
-    #
-    # Templates: allowed
-    # Since: v1.14 (pro)
-    # This option is only available on GoReleaser Pro.
-    skip_build: false
-
     # Skips the docker push.
     # Could be useful if you also do draft releases.
     #
@@ -142,15 +133,4 @@ dockers:
       - config.yml
 
 
-    # Additional templated extra files to add to the Docker image.
-    # Those files will have their contents pass through the template engine,
-    # and its results will be added to the build context the same way as the
-    # extra_files field above.
-    #
-    # Since: v1.17 (pro)
-    # This feature is only available in GoReleaser Pro.
-    # Templates: allowed
-    templated_extra_files:
-      - src: LICENSE.tpl
-        dst: LICENSE.txt
-        mode: 0644
+
