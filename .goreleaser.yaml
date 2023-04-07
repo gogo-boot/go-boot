@@ -49,7 +49,7 @@ dockers:
   # You can have multiple Docker images.
   -
     # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
-    id: myimg
+    id: go-web-template
 
     # GOOS of the built binaries/packages that should be used.
     # Default: 'linux'
@@ -69,14 +69,13 @@ dockers:
 
     # IDs to filter the binaries/packages.
     ids:
-      - mybuild
-      - mynfpm
+      - go-web-template
 
     # Templates of the Docker image names.
     #
     # Templates: allowed
     image_templates:
-      - "jinwoo/go-web-template:latest"
+      - "jinwoo/{{ .ProjectName }}:latest"
       - "jinwoo/go-web-template:{{ .Tag }}"
       - "jinwoo/go-web-template:v{{ .Major }}"
       - "jinwoo/go-web-template:v{{ .Major }}.{{ .Minor }}"
@@ -102,8 +101,8 @@ dockers:
     # Podman is a GoReleaser Pro feature and is only available on Linux.
     #
     # Default: 'docker'
-#    use: docker
-    use: buildx
+    use: docker
+#    use: buildx
 
     # Docker build flags.
     #

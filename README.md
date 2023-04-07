@@ -7,5 +7,5 @@ The packaging is small only 12 Mib. As Gin is very fast framework. it inherits i
 ## Deployment
 ```agsl
 git tag 0.0.1
-goreleaser release --rm-dist
+goreleaser release --clean --snapshot
 ```
