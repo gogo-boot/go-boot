@@ -102,7 +102,8 @@ dockers:
     # Podman is a GoReleaser Pro feature and is only available on Linux.
     #
     # Default: 'docker'
-    use: docker
+#    use: docker
+    use: buildx
 
     # Docker build flags.
     #
