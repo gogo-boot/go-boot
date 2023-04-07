@@ -33,6 +33,7 @@ func main() {
 		})
 	})
 
+	// curl -X POST http://localhost:8080/post?id=user1&page=123 -d "name=john&message=hello"
 	r.POST("/post", func(c *gin.Context) {
 
 		id := c.Query("id")
