@@ -11,9 +11,20 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-      - windows
-      - darwin
+#      - windows
+#      - darwin
 
+    goarch:
+      - amd64
+#      - arm
+#      - arm64
+#    goarm:
+#      - 6
+#      - 7
+    goamd64:
+      - v1
+#      - v2
+#      - v3
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of uname.
@@ -61,11 +72,11 @@ dockers:
 
     # GOARM of the built binaries/packages that should be used.
     # Default: '6'
-    goarm: ''
+#    goarm: ''
 
     # GOAMD64 of the built binaries/packages that should be used.
     # Default: 'v1'
-    goamd64: 'v2'
+#    goamd64: 'v3'
 
     # IDs to filter the binaries/packages.
     ids:
@@ -76,10 +87,9 @@ dockers:
     # Templates: allowed
     image_templates:
       - "jinwoo/{{ .ProjectName }}:latest"
-      - "jinwoo/go-web-template:{{ .Tag }}"
-      - "jinwoo/go-web-template:v{{ .Major }}"
-      - "jinwoo/go-web-template:v{{ .Major }}.{{ .Minor }}"
-      - "gcr.io/jinwoo/go-web-template:latest"
+      - "jinwoo/{{ .ProjectName }}:{{ .Tag }}"
+      - "jinwoo/{{ .ProjectName }}:v{{ .Major }}"
+      - "jinwoo/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}"
 
 
     # Skips the docker push.
@@ -114,7 +124,7 @@ dockers:
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
 #      - "--build-arg=FOO={{.Env.Bar}}"
-      - "--platform=linux/arm64"
+#      - "--platform=linux/amd64"
 
     # Extra flags to be passed down to the push command.
     push_flags:
