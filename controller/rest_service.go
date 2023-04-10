@@ -11,7 +11,7 @@ type Person struct {
 	Name string `uri:"name" binding:"required"`
 }
 
-func Route() {
+func StartRestAPI() {
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

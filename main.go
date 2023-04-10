@@ -7,5 +7,5 @@ import (
 
 func main() {
 	gorm.DB_Connect()
-	controller.Route()
+	controller.StartRestAPI()
 }
