@@ -1,6 +1,7 @@
 package main
 
 import (
+	"example.com/go-web-template/gorm"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -12,6 +13,7 @@ type Person struct {
 }
 
 func main() {
+	gorm.DB_Connect()
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
