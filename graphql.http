@@ -1,0 +1,25 @@
+
+
+###  GET request graphql
+GET localhost:8080/graphql/
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  POST request
+POST localhost:8080/graphql/query
+Content-Type: text/plain;charset=UTF-8
+
+{
+   "query":"{ getPet(id: 2) {  name owner { name pets { id name } }}}",
+   "variables":null,
+   "operationName":null
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

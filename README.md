@@ -23,5 +23,5 @@ goreleaser release --clean
 docker run -p 8080:8080 jinwoo/go-web-template
 ```
 
-## request.http file
-you can open this file with IntelliJ and send http request by clicking without nasty typing
+## Running Test
+you can open *.http files with IntelliJ and send http request or test by clicking without typing

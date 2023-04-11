@@ -1,0 +1,93 @@
+
+
+###  GET request ping
+GET localhost:8080/restapi/ping
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request json / return unicode and content-length is longer
+GET localhost:8080/restapi/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request purejson
+GET localhost:8080/restapi/purejson
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  POST request
+POST localhost:8080/restapi/post?id=123&page5
+Content-Type: application/x-www-form-urlencoded
+
+name=John Doe&message=is hungry
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request someDataFromReader
+GET localhost:8080/restapi/someDataFromReader
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 503, "Response status is not 503");
+    });
+%}
+###  GET request someJSON2
+GET localhost:8080/restapi/someJSON2
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request with path variable
+GET localhost:8080/restapi/thinkerou/987fbc97-4bed-5078-9f07-9141ba07c9f3
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request someXML
+GET localhost:8080/restapi/someXML
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request someYAML
+GET localhost:8080/restapi/someYAML
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request someJSON
+GET localhost:8080/restapi/someJSON
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+###  GET request moreJSON
+GET localhost:8080/restapi/moreJSON
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
