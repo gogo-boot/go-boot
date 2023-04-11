@@ -13,26 +13,30 @@ import (
 
 // nolint: gas
 func Routes(route *gin.Engine) {
-	s, err := getSchema("./graphql/schema.graphql")
-	if err != nil {
-		panic(err)
+	routeGroup := route.Group("/graphql")
+	{
+
+		s, err := getSchema("./graphql/schema.graphql")
+		if err != nil {
+			panic(err)
+		}
+
+		db, err := newDB("./test.db")
+		if err != nil {
+			panic(err)
+		}
+
+		schema := graphql.MustParseSchema(s, &Resolver{db: db}, graphql.UseStringDescriptions())
+
+		routeGroup.GET("/", func(c *gin.Context) {
+			c.Data(http.StatusOK, "text/html; charset=utf-8", page)
+		})
+
+		routeGroup.Any("/query", gin.WrapH(&relay.Handler{Schema: schema}))
+
+		log.WithFields(log.Fields{"time": time.Now()}).Info("starting server")
+		//log.Fatal(http.ListenAndServe("localhost:8080", logged(mux)))
 	}
-
-	db, err := newDB("./test.db")
-	if err != nil {
-		panic(err)
-	}
-
-	schema := graphql.MustParseSchema(s, &Resolver{db: db}, graphql.UseStringDescriptions())
-
-	route.GET("/graphql", func(c *gin.Context) {
-		c.Data(http.StatusOK, "text/html; charset=utf-8", page)
-	})
-
-	route.Any("/query", gin.WrapH(&relay.Handler{Schema: schema}))
-
-	log.WithFields(log.Fields{"time": time.Now()}).Info("starting server")
-	//log.Fatal(http.ListenAndServe("localhost:8080", logged(mux)))
 }
 
 var page = []byte(`
@@ -49,7 +53,7 @@ var page = []byte(`
 		<div id="graphiql" style="height: 100vh;">Loading...</div>
 		<script>
 			function graphQLFetcher(graphQLParams) {
-				return fetch("/query", {
+				return fetch("/graphql/query", {
 					method: "post",
 					body: JSON.stringify(graphQLParams),
 					credentials: "include",

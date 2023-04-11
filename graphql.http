@@ -1,0 +1,14 @@
+
+
+###  GET request graphql
+GET localhost:8080/graphql/
+
+###  POST request
+POST localhost:8080/graphql/query
+Content-Type: text/plain;charset=UTF-8
+
+{
+   "query":"{ getPet(id: 2) {  name owner { name pets { id name } }}}",
+   "variables":null,
+   "operationName":null
+}
