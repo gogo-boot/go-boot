@@ -35,7 +35,6 @@ func Routes(route *gin.Engine) {
 		routeGroup.Any("/query", gin.WrapH(&relay.Handler{Schema: schema}))
 
 		log.WithFields(log.Fields{"time": time.Now()}).Info("starting server")
-		//log.Fatal(http.ListenAndServe("localhost:8080", logged(mux)))
 	}
 }
 

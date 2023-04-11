@@ -11,7 +11,17 @@ type Product struct {
 	Price uint
 }
 
-func DB_Connect() {
+func DbConnect() {
+
+	// Mysql Connection Example
+	//dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
+	//db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	// Postgresql Connection Example
+	//dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
+	//db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// for more information, refer https://gorm.io/docs/connecting_to_the_database.html
+
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
