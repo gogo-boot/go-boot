@@ -1,8 +1,13 @@
 
 ## Description
-It is simple web template project, which is written in Go with Gin framework.
-It is designed for microservice.
-The packaging is small only 8 Mib. As Gin is very fast framework. it inherits its character. 
+It is simple web template project, which is written in Go with popular go frameworks.
+It uses these frameworks. Gin/ GORM/ Graphql-Go/ Oauth2 for Go/ Casbin/ GoReleaser
+
+This template shows how to use RestAPI, Graphql, Oauth2, Authentication, Authorization, Database Connection, 
+and build and packaging.
+
+It will be built and packaged in Docker Image. If you don't want docker image build, 
+you can configure _.goreleaser.yaml_ file.
 
 ## Deployment
 Deployment test
@@ -23,5 +28,24 @@ goreleaser release --clean
 docker run -p 8080:8080 jinwoo/go-web-template
 ```
 
-## Running Test
+## Source code start point
+you can start review from _main.go_ file and follow further for more detail.
+
+## Integration Test
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
+
+## Reference 
+If you like to change configuration or extend it, you can read further document
+from the follwing reference site.
+
+[Gin Web Framework](https://github.com/gin-gonic/gin)
+
+[Go ORM Framework / GORM](https://github.com/go-gorm/gorm)
+
+[Go Graphql Framework / graphql-go](https://github.com/graph-gophers/graphql-go)
+
+[Go Authentification Framework / OAuth2 for Go](https://github.com/golang/oauth2)
+
+[Go Authorization Framework / Casbin](https://github.com/casbin/casbin)
+
+[Go build/packaging manager / GoReleaser](https://github.com/goreleaser/goreleaser)

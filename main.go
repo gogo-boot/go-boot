@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	gorm.DB_Connect()
+	gorm.DbConnect()
 
 	router := gin.Default()
 	restapi.Routes(router)
