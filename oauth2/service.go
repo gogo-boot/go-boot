@@ -64,7 +64,13 @@ func Routes(route *gin.Engine) {
 }
 
 func logout(c *gin.Context) {
-	
+	c.SetCookie("JSESSIONID", "", 0, "/", "localhost", false, false)
+	var htmlIndex = []byte(`<html>
+				<body>
+						Logout Success<br/>
+				</body>
+				</html>`)
+	c.Data(http.StatusOK, "text/html; charset=utf-8", htmlIndex)
 }
 
 func login(c *gin.Context) {
