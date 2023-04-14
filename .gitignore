@@ -17,3 +17,4 @@ go.sum
 go-web-template
 dist/
 *.db
+*.env
