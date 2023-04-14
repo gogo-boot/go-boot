@@ -12,8 +12,7 @@ import (
 )
 
 // nolint: gas
-func Routes(route *gin.Engine) {
-	routeGroup := route.Group("/graphql")
+func Routes(rg *gin.RouterGroup) {
 	{
 
 		s, err := getSchema("./graphql/schema.graphql")
@@ -28,11 +27,11 @@ func Routes(route *gin.Engine) {
 
 		schema := graphql.MustParseSchema(s, &Resolver{db: db}, graphql.UseStringDescriptions())
 
-		routeGroup.GET("/", func(c *gin.Context) {
+		rg.GET("/", func(c *gin.Context) {
 			c.Data(http.StatusOK, "text/html; charset=utf-8", page)
 		})
 
-		routeGroup.Any("/query", gin.WrapH(&relay.Handler{Schema: schema}))
+		rg.Any("/query", gin.WrapH(&relay.Handler{Schema: schema}))
 
 		log.WithFields(log.Fields{"time": time.Now()}).Info("starting server")
 	}

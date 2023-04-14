@@ -11,3 +11,6 @@ oauth2:
     - "profile"
     - "email"
   tenant: "a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd"
+
+oidc:
+  openid-configuration: https://login.microsoftonline.com/a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd/v2.0/.well-known/openid-configuration

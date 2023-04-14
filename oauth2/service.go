@@ -2,7 +2,7 @@ package oauth2
 
 import (
 	"context"
-	myConfig "example.com/go-web-template/config"
+	. "example.com/go-web-template/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
@@ -19,11 +19,11 @@ var ctx = context.Background()
 
 func init() {
 	oauthConfig = &oauth2.Config{
-		RedirectURL:  myConfig.MyConfig.Oauth2.RedirectUrl,
-		ClientID:     myConfig.MyConfig.Oauth2.ClientId,
-		ClientSecret: myConfig.MyConfig.Oauth2.ClientSecret,
-		Scopes:       myConfig.MyConfig.Oauth2.Scopes,
-		Endpoint:     endpoints.AzureAD(myConfig.MyConfig.Oauth2.Tenant),
+		RedirectURL:  AppConfig.Oauth2.RedirectUrl,
+		ClientID:     AppConfig.Oauth2.ClientId,
+		ClientSecret: AppConfig.Oauth2.ClientSecret,
+		Scopes:       AppConfig.Oauth2.Scopes,
+		Endpoint:     endpoints.AzureAD(AppConfig.Oauth2.Tenant),
 	}
 }
 
@@ -51,16 +51,13 @@ var token *oauth2.Token
 
 var webSSO WebSSO
 
-func Routes(route *gin.Engine) {
-	routeGroup := route.Group("/login")
-	{
-		routeGroup.GET("/", showIndex)
-		routeGroup.GET("/login", login)
-		routeGroup.GET("/logout", logout)
-		routeGroup.GET("/oauth2/code/dbwebsso", loginProcess)
-		routeGroup.GET("/info", showTokenInfo)
-		routeGroup.GET("/external", getExternalSite)
-	}
+func Routes(rg *gin.RouterGroup) {
+	rg.GET("/", showIndex)
+	rg.GET("/login", login)
+	rg.GET("/logout", logout)
+	rg.GET("/oauth2/code/dbwebsso", loginProcess)
+	rg.GET("/info", showTokenInfo)
+	rg.GET("/external", getExternalSite)
 }
 
 func logout(c *gin.Context) {

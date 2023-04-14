@@ -39,18 +39,29 @@ go mod tidy
 ```
 then the unused framework will be removed and the build package will be slimmer.
 
+## Feature
+- Rest API
+- GraphQL
+- DB Connection 
+- Logging
+- Oauth2
+- Configuration
+- Multi architect build 
+- Dockerizing
+
 ## Integration Test
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
 ## Roadmap
+- Implement OpenAPI auto RestAPI Generation 
 - Implement Role based authorization
 - Implement Logging
 - Implement OIDC
-- Refactoring
+- Unit Test
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
-from the follwing reference site.
+from the following reference site.
 
 [Gin Web Framework](https://github.com/gin-gonic/gin)
 
