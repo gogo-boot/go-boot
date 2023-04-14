@@ -11,7 +11,7 @@ type binder struct {
 }
 
 type server struct {
-	PortNumber uint16 `mapstructure:"portNumber"`
+	PortNumber string `mapstructure:"portNumber"`
 }
 
 type oauth2 struct {
@@ -22,15 +22,11 @@ type oauth2 struct {
 	Tenant       string   `mapstructure:"tenant"`
 }
 
-var MyConfig binder
+var AppConfig binder
 
 func init() {
 
 	config.WithOptions(config.ParseEnv)
-
-	// only add decoder
-	// config.SetDecoder(config.Yaml, yamlv3.Decoder)
-	// Or
 	config.AddDriver(yamlv3.Driver)
 
 	err := config.LoadFiles("config/config.yml")
@@ -38,6 +34,6 @@ func init() {
 		panic(err)
 	}
 
-	config.BindStruct("", &MyConfig)
-	//fmt.Printf("config data: \n %v\n", MyConfig)
+	config.BindStruct("", &AppConfig)
+	//fmt.Printf("config data: \n %v\n", AppConfig)
 }

@@ -19,11 +19,11 @@ var ctx = context.Background()
 
 func init() {
 	oauthConfig = &oauth2.Config{
-		RedirectURL:  myConfig.MyConfig.Oauth2.RedirectUrl,
-		ClientID:     myConfig.MyConfig.Oauth2.ClientId,
-		ClientSecret: myConfig.MyConfig.Oauth2.ClientSecret,
-		Scopes:       myConfig.MyConfig.Oauth2.Scopes,
-		Endpoint:     endpoints.AzureAD(myConfig.MyConfig.Oauth2.Tenant),
+		RedirectURL:  myConfig.AppConfig.Oauth2.RedirectUrl,
+		ClientID:     myConfig.AppConfig.Oauth2.ClientId,
+		ClientSecret: myConfig.AppConfig.Oauth2.ClientSecret,
+		Scopes:       myConfig.AppConfig.Oauth2.Scopes,
+		Endpoint:     endpoints.AzureAD(myConfig.AppConfig.Oauth2.Tenant),
 	}
 }
 
