@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/endpoints"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"time"
@@ -47,11 +47,33 @@ type WebSSO struct {
 	SessionState string `form:"session_state"`
 }
 
+var token *oauth2.Token
+
+var webSSO WebSSO
+
 func Routes(route *gin.Engine) {
-	routegroup := route.Group("/login")
+	routeGroup := route.Group("/login")
 	{
-		routegroup.GET("/", func(c *gin.Context) {
-			var htmlIndex = []byte(`<html>
+		routeGroup.GET("/", showIndex)
+		routeGroup.GET("/login", login)
+		routeGroup.GET("/logout", logout)
+		routeGroup.GET("/oauth2/code/dbwebsso", loginProcess)
+		routeGroup.GET("/info", showTokenInfo)
+		routeGroup.GET("/external", getExternalSite)
+	}
+}
+
+func logout(c *gin.Context) {
+	
+}
+
+func login(c *gin.Context) {
+	url := oauthConfig.AuthCodeURL(oauthStateString, oauth2.AccessTypeOnline)
+	c.Redirect(http.StatusTemporaryRedirect, url)
+}
+
+func showIndex(c *gin.Context) {
+	var htmlIndex = []byte(`<html>
 				<body>
 						<br><a href="/login/login">login</a>
 						<br><a href="/login/logout">logout</a>
@@ -60,62 +82,48 @@ func Routes(route *gin.Engine) {
 						<br><a href="/login/only-with-role">only with role</a>
 				</body>
 				</html>`)
-			c.Data(http.StatusOK, "text/html; charset=utf-8", htmlIndex)
-		})
-		routegroup.GET("/login", func(c *gin.Context) {
-			url := oauthConfig.AuthCodeURL(oauthStateString, oauth2.AccessTypeOnline)
-			c.Redirect(http.StatusTemporaryRedirect, url)
-		})
-		routegroup.GET("/logout", func(c *gin.Context) {
-		})
-		routegroup.GET("/oauth2/code/dbwebsso", func(c *gin.Context) {
-			var webSSO WebSSO
-			if c.Bind(&webSSO) == nil {
-
-				if webSSO.State != oauthStateString {
-					fmt.Errorf("invalid oauth State")
-				}
-				token, err := oauthConfig.Exchange(ctx, webSSO.Code)
-				if err != nil {
-					fmt.Errorf("code exchange failed: %s", err.Error())
-				}
-
-				response := fmt.Sprintf("<html><body>accesstoken : %s<br/>"+
-					"refreshtoken : %s<br/>"+
-					"tokentype: %s<br/>"+
-					"tokenexpiry : %s<br/></body></html>", token.AccessToken, token.RefreshToken, token.TokenType, token.Expiry)
-				c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
-				//c.Data(http.StatusOK, "text/html; charset=utf-8", string(response))
-			}
-		})
-		routegroup.GET("/info", func(c *gin.Context) {
-
-		})
-		routegroup.GET("/external", getExternalSite)
-	}
+	c.Data(http.StatusOK, "text/html; charset=utf-8", htmlIndex)
 }
+func loginProcess(c *gin.Context) {
+	if c.Bind(&webSSO) == nil {
 
-func getExternalSite(c *gin.Context) {
-	var webSSO WebSSO
-	if c.ShouldBind(&webSSO) == nil {
 		if webSSO.State != oauthStateString {
 			fmt.Errorf("invalid oauth State")
 		}
-		token, err := oauthConfig.Exchange(ctx, webSSO.Code)
+		var err error
+		token, err = oauthConfig.Exchange(ctx, webSSO.Code)
 		if err != nil {
-			fmt.Errorf("Code exchange failed: %s", err.Error())
+			fmt.Errorf("code exchange failed: %s", err.Error())
 		}
-		client := oauthConfig.Client(ctx, token)
-		response, err := client.Get("https://gateway.hub.db.de/bizhub-api-secured-with-jwt")
 
-		if err != nil {
-			fmt.Errorf("failed getting user info: %s", err.Error())
-		}
-		defer response.Body.Close()
-		contents, err := ioutil.ReadAll(response.Body)
-		if err != nil {
-			fmt.Errorf("failed reading response body: %s", err.Error())
-		}
-		c.HTML(http.StatusOK, "text/html; charset=utf-8", contents)
+		response := fmt.Sprintf("<html><body>Login Success and Retriving token is successful<br/></body></html>")
+		c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
 	}
+}
+func showTokenInfo(c *gin.Context) {
+
+	response := fmt.Sprintf("<html><body>accesstoken : %s<br/>"+
+		"refreshtoken : %s<br/>"+
+		"tokentype: %s<br/>"+
+		"tokenexpiry : %s<br/></body></html>", token.AccessToken, token.RefreshToken, token.TokenType, token.Expiry)
+	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
+}
+func getExternalSite(c *gin.Context) {
+	if webSSO.State != oauthStateString {
+		fmt.Errorf("invalid oauth State")
+	}
+
+	client := oauthConfig.Client(ctx, token)
+	response, err := client.Get("https://gateway.hub.db.de/bizhub-api-secured-with-jwt")
+
+	if err != nil {
+		fmt.Errorf("failed getting user info: %s", err.Error())
+	}
+	defer response.Body.Close()
+	contents, err := io.ReadAll(response.Body)
+	if err != nil {
+		fmt.Errorf("failed reading response body: %s", err.Error())
+	}
+	c.Data(http.StatusOK, "text/html; charset=utf-8", contents)
+
 }
