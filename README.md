@@ -43,7 +43,6 @@ then the unused framework will be removed and the build package will be slimmer.
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
 ## Roadmap
-- Implement yaml Configuration
 - Implement Role based authorization
 - Implement Logging
 - Implement OIDC

@@ -2,7 +2,7 @@ server:
   portNumber: 8080
 
 oauth2:
-  redirectUrl:  "http://localhost:8080/login/oauth2/code/dbwebsso",
+  redirectUrl:  "http://localhost:8080/login/oauth2/code/dbwebsso"
   clientId: ${CLIENT_ID}
   clientSecret: ${CLIENT_SECRET}
   scopes:
@@ -10,4 +10,4 @@ oauth2:
     - "openid"
     - "profile"
     - "email"
-  endPoint: "a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd"
+  tenant: "a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd"

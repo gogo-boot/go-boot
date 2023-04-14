@@ -2,13 +2,13 @@ package oauth2
 
 import (
 	"context"
+	myConfig "example.com/go-web-template/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/endpoints"
 	"io"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -19,11 +19,11 @@ var ctx = context.Background()
 
 func init() {
 	oauthConfig = &oauth2.Config{
-		RedirectURL:  "http://localhost:8080/login/oauth2/code/dbwebsso",
-		ClientID:     os.Getenv("CLIENT_ID"),
-		ClientSecret: os.Getenv("CLIENT_SECRET"),
-		Scopes:       []string{"54f98af6-5da1-4d54-8610-8fad122aa628/.default", "openid", "profile", "email"},
-		Endpoint:     endpoints.AzureAD("a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd"),
+		RedirectURL:  myConfig.MyConfig.Oauth2.RedirectUrl,
+		ClientID:     myConfig.MyConfig.Oauth2.ClientId,
+		ClientSecret: myConfig.MyConfig.Oauth2.ClientSecret,
+		Scopes:       myConfig.MyConfig.Oauth2.Scopes,
+		Endpoint:     endpoints.AzureAD(myConfig.MyConfig.Oauth2.Tenant),
 	}
 }
 

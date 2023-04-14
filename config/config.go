@@ -1,7 +1,6 @@
 package myConfig
 
 import (
-	"fmt"
 	"github.com/gookit/config/v2"
 	"github.com/gookit/config/v2/yamlv3"
 )
@@ -12,7 +11,7 @@ type binder struct {
 }
 
 type server struct {
-	PortNumber string `mapstructure:"portNumber"`
+	PortNumber uint16 `mapstructure:"portNumber"`
 }
 
 type oauth2 struct {
@@ -20,12 +19,12 @@ type oauth2 struct {
 	ClientId     string   `mapstructure:"clientId"`
 	ClientSecret string   `mapstructure:"clientSecret"`
 	Scopes       []string `mapstructure:"scopes"`
-	EndPoint     string   `mapstructure:"endPoint"`
+	Tenant       string   `mapstructure:"tenant"`
 }
 
 var MyConfig binder
 
-func LoadConfig() {
+func init() {
 
 	config.WithOptions(config.ParseEnv)
 
@@ -40,6 +39,5 @@ func LoadConfig() {
 	}
 
 	config.BindStruct("", &MyConfig)
-	//fmt.Printf("config data: \n %#v\n", config.Data())
-	fmt.Printf("config data: \n %v\n", MyConfig)
+	//fmt.Printf("config data: \n %v\n", MyConfig)
 }
