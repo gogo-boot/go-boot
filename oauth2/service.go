@@ -2,7 +2,7 @@ package oauth2
 
 import (
 	"context"
-	myConfig "example.com/go-web-template/config"
+	. "example.com/go-web-template/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
@@ -19,11 +19,11 @@ var ctx = context.Background()
 
 func init() {
 	oauthConfig = &oauth2.Config{
-		RedirectURL:  myConfig.AppConfig.Oauth2.RedirectUrl,
-		ClientID:     myConfig.AppConfig.Oauth2.ClientId,
-		ClientSecret: myConfig.AppConfig.Oauth2.ClientSecret,
-		Scopes:       myConfig.AppConfig.Oauth2.Scopes,
-		Endpoint:     endpoints.AzureAD(myConfig.AppConfig.Oauth2.Tenant),
+		RedirectURL:  AppConfig.Oauth2.RedirectUrl,
+		ClientID:     AppConfig.Oauth2.ClientId,
+		ClientSecret: AppConfig.Oauth2.ClientSecret,
+		Scopes:       AppConfig.Oauth2.Scopes,
+		Endpoint:     endpoints.AzureAD(AppConfig.Oauth2.Tenant),
 	}
 }
 
