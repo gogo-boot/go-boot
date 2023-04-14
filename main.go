@@ -13,9 +13,8 @@ import (
 func main() {
 	gorm.DbConnect()
 	router := gin.Default()
-	restapi.Routes(router)
-	graphql.Routes(router)
-	oauth2.Routes(router)
+	restapi.Routes(router.Group("/restapi"))
+	graphql.Routes(router.Group("/graphql"))
+	oauth2.Routes(router.Group("/login"))
 	router.Run(":" + strconv.FormatInt(int64(myConfig.MyConfig.Server.PortNumber), 10))
-
 }

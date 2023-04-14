@@ -51,16 +51,13 @@ var token *oauth2.Token
 
 var webSSO WebSSO
 
-func Routes(route *gin.Engine) {
-	routeGroup := route.Group("/login")
-	{
-		routeGroup.GET("/", showIndex)
-		routeGroup.GET("/login", login)
-		routeGroup.GET("/logout", logout)
-		routeGroup.GET("/oauth2/code/dbwebsso", loginProcess)
-		routeGroup.GET("/info", showTokenInfo)
-		routeGroup.GET("/external", getExternalSite)
-	}
+func Routes(rg *gin.RouterGroup) {
+	rg.GET("/", showIndex)
+	rg.GET("/login", login)
+	rg.GET("/logout", logout)
+	rg.GET("/oauth2/code/dbwebsso", loginProcess)
+	rg.GET("/info", showTokenInfo)
+	rg.GET("/external", getExternalSite)
 }
 
 func logout(c *gin.Context) {

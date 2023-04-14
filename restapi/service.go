@@ -11,31 +11,30 @@ type Person struct {
 	Name string `uri:"name" binding:"required"`
 }
 
-func Routes(route *gin.Engine) {
-	routeGroup := route.Group("/restapi")
+func Routes(rg *gin.RouterGroup) {
 	{
-		routeGroup.GET("/ping", func(c *gin.Context) {
+		rg.GET("/ping", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{
 				"message": "pong",
 			})
 		})
 
 		// Serves unicode entities
-		routeGroup.GET("/json", func(c *gin.Context) {
+		rg.GET("/json", func(c *gin.Context) {
 			c.JSON(200, gin.H{
 				"html": "<b>Hello, world!</b>",
 			})
 		})
 
 		// Serves literal characters
-		routeGroup.GET("/purejson", func(c *gin.Context) {
+		rg.GET("/purejson", func(c *gin.Context) {
 			c.PureJSON(200, gin.H{
 				"html": "<b>Hello, world!</b>",
 			})
 		})
 
 		// curl -X POST http://localhost:8080/post?id=user1&page=123 -d "name=john&message=hello"
-		routeGroup.POST("/post", func(c *gin.Context) {
+		rg.POST("/post", func(c *gin.Context) {
 
 			id := c.Query("id")
 			page := c.DefaultQuery("page", "0")
@@ -45,7 +44,7 @@ func Routes(route *gin.Engine) {
 			fmt.Printf("id: %s; page: %s; name: %s; message: %s", id, page, name, message)
 		})
 
-		routeGroup.GET("/someDataFromReader", func(c *gin.Context) {
+		rg.GET("/someDataFromReader", func(c *gin.Context) {
 			response, err := http.Get("https://raw.githubusercontent.com/gin-gonic/logo/master/colorestapi.png")
 			if err != nil || response.StatusCode != http.StatusOK {
 				c.Status(http.StatusServiceUnavailable)
@@ -64,8 +63,8 @@ func Routes(route *gin.Engine) {
 		})
 
 		// You can also use your own secure json prefix
-		// routeGroup.SecureJsonPrefix(")]}',\n")
-		routeGroup.GET("/someJSON2", func(c *gin.Context) {
+		// rg.SecureJsonPrefix(")]}',\n")
+		rg.GET("/someJSON2", func(c *gin.Context) {
 			names := []string{"lena", "austin", "foo"}
 
 			// Will output  :   while(1);["lena","austin","foo"]
@@ -73,7 +72,7 @@ func Routes(route *gin.Engine) {
 		})
 
 		//curl -v localhost:8088/thinkerou/987fbc97-4bed-5078-9f07-9141ba07c9f3
-		routeGroup.GET("/:name/:id", func(c *gin.Context) {
+		rg.GET("/:name/:id", func(c *gin.Context) {
 			var person Person
 			if err := c.ShouldBindUri(&person); err != nil {
 				c.JSON(400, gin.H{"msg": err})
@@ -82,19 +81,19 @@ func Routes(route *gin.Engine) {
 			c.JSON(200, gin.H{"name": person.Name, "uuid": person.ID})
 		})
 
-		routeGroup.GET("/someXML", func(c *gin.Context) {
+		rg.GET("/someXML", func(c *gin.Context) {
 			c.XML(http.StatusOK, gin.H{"message": "hey", "status": http.StatusOK})
 		})
 
-		routeGroup.GET("/someYAML", func(c *gin.Context) {
+		rg.GET("/someYAML", func(c *gin.Context) {
 			c.YAML(http.StatusOK, gin.H{"message": "hey", "status": http.StatusOK})
 		})
 		// gin.H is a shortcut for map[string]interface{}
-		routeGroup.GET("/someJSON", func(c *gin.Context) {
+		rg.GET("/someJSON", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"message": "hey", "status": http.StatusOK})
 		})
 
-		routeGroup.GET("/moreJSON", func(c *gin.Context) {
+		rg.GET("/moreJSON", func(c *gin.Context) {
 			// You also can use a struct
 			var msg struct {
 				Name    string `json:"user"`
