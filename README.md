@@ -42,6 +42,13 @@ then the unused framework will be removed and the build package will be slimmer.
 ## Integration Test
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
+## Roadmap
+- Implement yaml Configuration
+- Implement Role based authorization
+- Implement Logging
+- Implement OIDC
+- Refactoring
+
 ## Reference 
 If you like to change configuration or extend it, you can read further document
 from the follwing reference site.
@@ -57,3 +64,5 @@ from the follwing reference site.
 [Go Authorization Framework / Casbin](https://github.com/casbin/casbin)
 
 [Go build/packaging manager / GoReleaser](https://github.com/goreleaser/goreleaser)
+
+[Go Config](https://github.com/gookit/config)
