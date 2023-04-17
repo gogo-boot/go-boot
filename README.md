@@ -55,10 +55,9 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 ## Roadmap
 - Implement OpenAPI auto RestAPI Generation 
 - Implement Role based authorization
-- Implement Logging
 - Implement OIDC
 - Unit Test
-- Magics
+- Refactorings / Magics
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
