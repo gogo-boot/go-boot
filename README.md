@@ -43,7 +43,7 @@ then the unused framework will be removed and the build package will be slimmer.
 - Rest API
 - GraphQL
 - DB Connection 
-- Logging
+- Logging in Json Format
 - Oauth2
 - Configuration
 - Multi architect build 
@@ -58,6 +58,7 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 - Implement Logging
 - Implement OIDC
 - Unit Test
+- Magics
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
@@ -76,3 +77,5 @@ from the following reference site.
 [Go build/packaging manager / GoReleaser](https://github.com/goreleaser/goreleaser)
 
 [Go Config](https://github.com/gookit/config)
+
+[Logrus Logging](https://github.com/sirupsen/logrus)
