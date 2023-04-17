@@ -31,10 +31,11 @@ docker run -p 8080:8080 jinwoo/go-web-template
 ## Source code start point
 you can start review from _main.go_ file and follow further for more detail.
 
-## Remove Redundant
+## Update Dependencies and organize dependencies
 This uses several frameworks. RestAPI, Graphql, Oauth2, GORM... 
 If you don't need of it, you can delete the directory and update _main.go_ file.
 ```agsl
+go get -u
 go mod tidy
 ```
 then the unused framework will be removed and the build package will be slimmer.
@@ -55,10 +56,9 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 ## Roadmap
 - Implement OpenAPI auto RestAPI Generation 
 - Implement Role based authorization
-- Implement Logging
 - Implement OIDC
 - Unit Test
-- Magics
+- Refactorings / Magics
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
