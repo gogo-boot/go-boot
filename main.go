@@ -12,18 +12,19 @@ import (
 )
 
 func init() {
-
-	log.SetLevel(log.InfoLevel)
+	logLevel, _ := log.ParseLevel(AppConfig.Server.LogLevel)
+	log.SetLevel(logLevel)
 	log.SetFormatter(&log.JSONFormatter{})
 }
 
 func main() {
 	gorm.DbConnect()
-	//server := gin.Default()
+
+	// HTTP Server Set up
+	// server := gin.Default() // Default Mode
 	server := gin.New()
 	server.Use(gin.Recovery())
 	server.Use(middlewares.LoggingMiddleware())
-
 	restapi.Routes(server.Group("/restapi"))
 	graphql.Routes(server.Group("/graphql"))
 	oauth2.Routes(server.Group("/login"))

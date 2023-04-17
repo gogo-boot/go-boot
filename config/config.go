@@ -12,6 +12,7 @@ type binder struct {
 
 type server struct {
 	PortNumber string `mapstructure:"portNumber"`
+	LogLevel   string `mapstructure:"logLevel"`
 }
 
 type oauth2 struct {
@@ -35,5 +36,4 @@ func init() {
 	}
 
 	config.BindStruct("", &AppConfig)
-	//fmt.Printf("config data: \n %v\n", AppConfig)
 }
