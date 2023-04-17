@@ -31,10 +31,11 @@ docker run -p 8080:8080 jinwoo/go-web-template
 ## Source code start point
 you can start review from _main.go_ file and follow further for more detail.
 
-## Remove Redundant
+## Update Dependencies and organize dependencies
 This uses several frameworks. RestAPI, Graphql, Oauth2, GORM... 
 If you don't need of it, you can delete the directory and update _main.go_ file.
 ```agsl
+go get -u
 go mod tidy
 ```
 then the unused framework will be removed and the build package will be slimmer.
