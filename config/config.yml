@@ -1,5 +1,6 @@
 server:
   portNumber: 8080
+  logLevel: info
 
 oauth2:
   redirectUrl:  "http://localhost:8080/login/oauth2/code/dbwebsso"
