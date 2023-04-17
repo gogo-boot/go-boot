@@ -2,6 +2,8 @@
 # Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
+    # Update all dependencies
+    - go get -u
     # You may remove this if you don't use go modules.
     - go mod tidy
     # you may remove this if you don't need go generate
@@ -11,20 +13,15 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-#      - windows
-#      - darwin
-
+      - windows
+      - darwin
     goarch:
       - amd64
-#      - arm
-#      - arm64
-#    goarm:
-#      - 6
-#      - 7
+      - arm64
+    goarm:
+      - 8  # AWS Graviton/ Mac M1
     goamd64:
-#      - v1
-#      - v2
-      - v3
+      - v3 # Since 2015
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of uname.
@@ -37,8 +34,8 @@ archives:
       {{- if .Arm }}v{{ .Arm }}{{ end }}
     # use zip for windows archives
     format_overrides:
-    - goos: windows
-      format: zip
+      - goos: windows
+        format: zip
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -72,7 +69,7 @@ dockers:
 
     # GOARM of the built binaries/packages that should be used.
     # Default: '6'
-#    goarm: ''
+    #    goarm: ''
 
     # GOAMD64 of the built binaries/packages that should be used.
     # Default: 'v1'
@@ -102,7 +99,7 @@ dockers:
     # Path to the Dockerfile (from the project root).
     #
     # Default: 'Dockerfile'
-#    dockerfile: '{{ .Env.DOCKERFILE }}'
+    #    dockerfile: '{{ .Env.DOCKERFILE }}'
 
     # Set the "backend" for the Docker pipe.
     #
@@ -112,7 +109,7 @@ dockers:
     #
     # Default: 'docker'
     use: docker
-#    use: buildx
+    #    use: buildx
 
     # Docker build flags.
     #
@@ -123,8 +120,8 @@ dockers:
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
-#      - "--build-arg=FOO={{.Env.Bar}}"
-#      - "--platform=linux/amd64"
+    #      - "--build-arg=FOO={{.Env.Bar}}"
+    #      - "--platform=linux/amd64"
 
     # Extra flags to be passed down to the push command.
     push_flags:
@@ -139,5 +136,5 @@ dockers:
     # GoReleaser is being run (usually the repository root folder).
     # This field does not support wildcards, you can add an entire folder here
     # and use wildcards when you `COPY`/`ADD` in your Dockerfile.
-#    extra_files:
-#      - config.yml
+    extra_files:
+      - config/config.yml
