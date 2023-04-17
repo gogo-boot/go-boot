@@ -14,7 +14,9 @@ import (
 func init() {
 	logLevel, _ := log.ParseLevel(AppConfig.Server.LogLevel)
 	log.SetLevel(logLevel)
-	log.SetFormatter(&log.JSONFormatter{})
+
+	// Log as JSON instead of the default ASCII formatter.
+	log.SetFormatter(&log.JSONFormatter{}) //for easy parsing by logstash or Splunk
 }
 
 func main() {

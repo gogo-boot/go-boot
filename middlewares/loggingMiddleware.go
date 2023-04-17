@@ -24,11 +24,11 @@ func LoggingMiddleware() gin.HandlerFunc {
 		latencyString := strconv.FormatInt(int64(latencyTime/time.Microsecond), 10) + " µs"
 
 		log.WithFields(log.Fields{
-			"METHOD":    ctx.Request.Method,
-			"URI":       ctx.Request.RequestURI,
-			"STATUS":    ctx.Writer.Status(),
-			"LATENCY":   latencyString,
-			"CLIENT_IP": ctx.ClientIP(),
+			"method":   ctx.Request.Method,
+			"uri":      ctx.Request.RequestURI,
+			"status":   ctx.Writer.Status(),
+			"latency":  latencyString,
+			"clientIp": ctx.ClientIP(),
 		}).Info("HTTP REQUEST")
 
 		ctx.Next()
