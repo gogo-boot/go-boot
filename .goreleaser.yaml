@@ -2,6 +2,8 @@
 # Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
+    # Update all dependencies
+    - go get -u
     # You may remove this if you don't use go modules.
     - go mod tidy
     # you may remove this if you don't need go generate
@@ -11,20 +13,15 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-#      - windows
-#      - darwin
-
+      - windows
+      - darwin
     goarch:
       - amd64
-#      - arm
-#      - arm64
-#    goarm:
-#      - 6
-#      - 7
+      - arm64
+    goarm:
+      - 8  # AWS Graviton/ Mac M1
     goamd64:
-#      - v1
-#      - v2
-      - v3
+      - v3 # Since 2015
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of uname.
@@ -37,8 +34,8 @@ archives:
       {{- if .Arm }}v{{ .Arm }}{{ end }}
     # use zip for windows archives
     format_overrides:
-    - goos: windows
-      format: zip
+      - goos: windows
+        format: zip
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -57,87 +54,58 @@ changelog:
 
 # .goreleaser.yaml
 dockers:
-  # You can have multiple Docker images.
   -
-    # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
-    id: go-web-template
-
-    # GOOS of the built binaries/packages that should be used.
-    # Default: 'linux'
     goos: linux
-
-    # GOARCH of the built binaries/packages that should be used.
-    # Default: 'amd64'
     goarch: amd64
-
-    # GOARM of the built binaries/packages that should be used.
-    # Default: '6'
-#    goarm: ''
-
-    # GOAMD64 of the built binaries/packages that should be used.
-    # Default: 'v1'
     goamd64: 'v3'
-
-    # IDs to filter the binaries/packages.
     ids:
       - go-web-template
-
-    # Templates of the Docker image names.
-    #
-    # Templates: allowed
     image_templates:
-      - "jinwoo/{{ .ProjectName }}:latest"
-      - "jinwoo/{{ .ProjectName }}:{{ .Tag }}"
-      - "jinwoo/{{ .ProjectName }}:v{{ .Major }}"
-      - "jinwoo/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}"
-
-
-    # Skips the docker push.
-    # Could be useful if you also do draft releases.
-    #
-    # If set to auto, the release will not be pushed to the Docker repository
-    #  in case there is an indicator of a prerelease in the tag, e.g. v1.0.0-rc1.
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-amd64"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
     skip_push: true
-
-    # Path to the Dockerfile (from the project root).
-    #
-    # Default: 'Dockerfile'
-#    dockerfile: '{{ .Env.DOCKERFILE }}'
-
-    # Set the "backend" for the Docker pipe.
-    #
-    # Valid options are: docker, buildx, podman.
-    #
-    # Podman is a GoReleaser Pro feature and is only available on Linux.
-    #
-    # Default: 'docker'
     use: docker
-#    use: buildx
-
-    # Docker build flags.
-    #
-    # Templates: allowed
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
-#      - "--build-arg=FOO={{.Env.Bar}}"
-#      - "--platform=linux/amd64"
-
-    # Extra flags to be passed down to the push command.
+      - "--platform=linux/amd64"
     push_flags:
       - --tls-verify=false
-
-    # If your Dockerfile copies files other than binaries and packages,
-    # you should list them here as well.
-    # Note that GoReleaser will create the same structure inside a temporary
-    # folder, so if you add `foo/bar.json` here, on your Dockerfile you can
-    # `COPY foo/bar.json /whatever.json`.
-    # Also note that the paths here are relative to the folder in which
-    # GoReleaser is being run (usually the repository root folder).
-    # This field does not support wildcards, you can add an entire folder here
-    # and use wildcards when you `COPY`/`ADD` in your Dockerfile.
-#    extra_files:
-#      - config.yml
+    extra_files:
+      - config/config.yml
+  -
+    goos: linux
+    goarch: arm64
+    goarm: 8
+    ids:
+      - go-web-template
+    image_templates:
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-arm64v8"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
+    skip_push: true
+    use: docker
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--platform=linux/arm64/v8"
+    push_flags:
+      - --tls-verify=false
+    extra_files:
+      - config/config.yml
+docker_manifests:
+  - name_template: "jinwoo/{{ .ProjectName }}:{{ .Version }}"
+    image_templates:
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-amd64"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-arm64v8"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
+      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
