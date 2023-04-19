@@ -45,7 +45,9 @@ then the unused framework will be removed and the build package will be slimmer.
   - OpenAPI
   - 
 - Logging in Json Format
-- Oauth2
+- Security
+  - Oauth2
+  - OIDC
 - Configuration
 - Multi architect build 
 - Dockerizing
@@ -73,8 +75,9 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 - GraphQL
 - DB Connection 
 - Implement Role based authorization
-- Implement OIDC
 - Unit Test
+- Bug fix : 
+  - login thread safe / per user safe
 - Refactorings / Magics
 
 ## Reference 
