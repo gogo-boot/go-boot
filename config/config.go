@@ -8,6 +8,7 @@ import (
 type binder struct {
 	Server server `mapstructure:"server"`
 	Oauth2 oauth2 `mapstructure:"oauth2"`
+	Oidc   oidc   `mapstructure:"oidc"`
 }
 
 type server struct {
@@ -21,6 +22,14 @@ type oauth2 struct {
 	ClientSecret string   `mapstructure:"clientSecret"`
 	Scopes       []string `mapstructure:"scopes"`
 	Tenant       string   `mapstructure:"tenant"`
+}
+
+type oidc struct {
+	RedirectUrl  string   `mapstructure:"redirectUrl"`
+	ClientId     string   `mapstructure:"clientId"`
+	ClientSecret string   `mapstructure:"clientSecret"`
+	Scopes       []string `mapstructure:"scopes"`
+	Issuer       string   `mapstructure:"issuer"`
 }
 
 var AppConfig binder
