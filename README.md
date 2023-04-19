@@ -76,6 +76,8 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 - DB Connection 
 - Implement Role based authorization
 - Unit Test
+- Bug fix : 
+  - login thread safe / per user safe
 - Refactorings / Magics
 
 ## Reference 
