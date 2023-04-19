@@ -42,8 +42,8 @@ then the unused framework will be removed and the build package will be slimmer.
 
 ## Feature
 - Rest API
-- GraphQL
-- DB Connection 
+  - OpenAPI
+  - 
 - Logging in Json Format
 - Oauth2
 - Configuration
@@ -63,11 +63,15 @@ openapi-generator-cli generate -i petstore.yaml -g go-gin-server -o ./opeapi-gen
 --global-property=apiDocs=false,modelDocs=false \
 --additional-properties=apiPath=openapi,packageName=openapi
 ```
+
+adjust router group in the main.go file.
+
 ## Integration Test
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
 ## Roadmap
-- Implement OpenAPI auto RestAPI Generation 
+- GraphQL
+- DB Connection 
 - Implement Role based authorization
 - Implement OIDC
 - Unit Test
