@@ -16,14 +16,12 @@ var server *gin.Engine
 func init() {
 	logLevel, _ := log.ParseLevel(AppConfig.Server.LogLevel)
 	log.SetLevel(logLevel)
-
 	// Log as JSON instead of the default ASCII formatter.
 	log.SetFormatter(&log.JSONFormatter{}) //for easy parsing by logstash or Splunk
 
 	// HTTP Server Set up
 	// server = gin.Default() // Default Mode
 	server = gin.New()
-
 	server.Use(gin.Recovery())
 	server.Use(middlewares.LoggingMiddleware())
 }

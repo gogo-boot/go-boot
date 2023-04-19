@@ -1,0 +1,68 @@
+###
+POST http://localhost:8080/openapi/v2/pet
+
+###
+PUT http://localhost:8080/openapi/v2/pet
+
+###
+GET http://localhost:8080/openapi/v2/pet/findByStatus
+
+###
+GET http://localhost:8080/openapi/v2/pet/findByTags
+
+###
+GET http://localhost:8080/openapi/v2/pet/findByTags
+
+<> 2023-04-19T202420.200.json
+
+###
+DELETE http://localhost:8080/openapi/v2/pet/{{petId}}
+
+###
+GET http://localhost:8080/openapi/v2/pet/{{petId}}
+
+###
+POST http://localhost:8080/openapi/v2/pet/{{petId}}
+
+###
+POST http://localhost:8080/openapi/v2/pet/{{petId}}/uploadImage
+
+###
+GET http://localhost:8080/openapi/v2/store/inventory
+
+<> 2023-04-19T202345.200.json
+
+###
+POST http://localhost:8080/openapi/v2/store/order
+
+<> 2023-04-19T202337.200.json
+
+###
+DELETE http://localhost:8080/openapi/v2/store/order/{{orderId}}
+
+###
+GET http://localhost:8080/openapi/v2/store/order/{{orderId}}
+
+###
+POST http://localhost:8080/openapi/v2/user
+
+###
+POST http://localhost:8080/openapi/v2/user/createWithArray
+
+###
+POST http://localhost:8080/openapi/v2/user/createWithList
+
+###
+GET http://localhost:8080/openapi/v2/user/login
+
+###
+GET http://localhost:8080/openapi/v2/user/logout
+
+###
+DELETE http://localhost:8080/openapi/v2/user/{{username}}
+
+###
+GET http://localhost:8080/openapi/v2/user/{{username}}
+
+###
+PUT http://localhost:8080/openapi/v2/user/{{username}}
