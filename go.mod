@@ -3,14 +3,17 @@ module example.com/go-web-template
 go 1.20
 
 require (
+	github.com/99designs/gqlgen v0.17.29
 	github.com/coreos/go-oidc/v3 v3.5.0
 	github.com/gin-gonic/gin v1.9.0
 	github.com/gookit/config/v2 v2.2.1
 	github.com/sirupsen/logrus v1.9.0
+	github.com/vektah/gqlparser/v2 v2.5.1
 	golang.org/x/oauth2 v0.7.0
 )
 
 require (
+	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/bytedance/sonic v1.8.7 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/fatih/color v1.15.0 // indirect
@@ -25,6 +28,8 @@ require (
 	github.com/gookit/color v1.5.3 // indirect
 	github.com/gookit/goutil v0.6.8 // indirect
 	github.com/gookit/ini/v2 v2.2.2 // indirect
+	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/hashicorp/golang-lru/v2 v2.0.1 // indirect
 	github.com/imdario/mergo v0.3.15 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
