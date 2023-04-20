@@ -43,7 +43,7 @@ then the unused framework will be removed and the build package will be slimmer.
 ## Feature
 - Rest API
   - OpenAPI
-  - 
+  - GraphQL
 - Logging in Json Format
 - Security
   - Oauth2
@@ -72,13 +72,13 @@ adjust router group in the main.go file.
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
 ## Roadmap
-- GraphQL
 - DB Connection 
 - Implement Role based authorization
 - Unit Test
 - Bug fix : 
-  - login thread safe / per user safe
+  - critical : login thread safe / per user safe
 - Refactorings / Magics
+- Release
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
