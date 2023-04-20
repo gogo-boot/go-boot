@@ -58,5 +58,5 @@ func main() {
 	//oauth2.Routes(server.Group("/login"))
 	myOidc.Routes(server.Group("/login"))
 
-	server.Run("localhost:" + AppConfig.Server.PortNumber)
+	server.Run(":" + AppConfig.Server.PortNumber)
 }
