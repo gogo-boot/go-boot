@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 	"io"
 	"net/http"
@@ -23,7 +24,7 @@ func init() {
 
 	provider, err := oidc.NewProvider(ctx, AppConfig.Oidc.Issuer)
 	if err != nil {
-		// handle error
+		log.Panic(err)
 	}
 
 	oauthConfig = &oauth2.Config{
