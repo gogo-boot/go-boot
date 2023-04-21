@@ -103,10 +103,8 @@ dockers:
 docker_manifests:
   - name_template: "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Version }}"
     image_templates:
-      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}-amd64"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
-      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}-arm64v8"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
   - name_template: "docker.io/mgcos1231/{{ .ProjectName }}:latest"
