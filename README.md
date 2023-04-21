@@ -25,7 +25,7 @@ goreleaser release --clean
 ## Running
 
 ```agsl
-docker run -p 8080:8080 jinwoo/go-web-template
+docker run -p 8080:8080 mgcos1231/go-web-template 
 ```
 
 ## Source code start point
@@ -76,7 +76,7 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 - Implement Role based authorization
 - Unit Test
 - Bug fix : 
-  - critical : login thread safe / per user safe
+  - critical : login per context safe / per user safe
 - Refactorings / Magics
 - Release
 
