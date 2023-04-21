@@ -39,7 +39,7 @@ archives:
 checksum:
   name_template: 'checksums.txt'
 snapshot:
-  name_template: "{{ incpatch .Version }}-next"
+  name_template: "{{ incpatch .Version }}-SNAPSHOT"
 changelog:
   sort: asc
   filters:
@@ -61,11 +61,11 @@ dockers:
     ids:
       - go-web-template
     image_templates:
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-amd64"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
-    skip_push: true
-    use: docker
+      - "docker.io/mgcos1231/{{ .ProjectName }}:latest-amd64"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
+    skip_push: false
+    use: buildx
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -84,11 +84,11 @@ dockers:
     ids:
       - go-web-template
     image_templates:
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-arm64v8"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
-    skip_push: true
-    use: docker
+      - "docker.io/mgcos1231/{{ .ProjectName }}:latest-arm64v8"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
+    skip_push: false
+    use: buildx
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -101,11 +101,15 @@ dockers:
     extra_files:
       - config/config.yml
 docker_manifests:
-  - name_template: "jinwoo/{{ .ProjectName }}:{{ .Version }}"
+  - name_template: "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Version }}"
     image_templates:
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-amd64"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}-arm64v8"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
-      - "jinwoo/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}-amd64"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}-arm64v8"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
+  - name_template: "docker.io/mgcos1231/{{ .ProjectName }}:latest"
+    image_templates:
+      - "docker.io/mgcos1231/{{ .ProjectName }}:latest-amd64"
+      - "docker.io/mgcos1231/{{ .ProjectName }}:latest-arm64v8"
