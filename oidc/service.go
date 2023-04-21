@@ -2,7 +2,7 @@ package oidc2
 
 import (
 	"context"
-	. "example.com/go-web-template/config"
+	. "example.com/go-boot/config"
 	"fmt"
 	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/gin-gonic/gin"

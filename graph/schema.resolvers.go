@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"math/rand"
 
-	"example.com/go-web-template/graph/model"
+	"example.com/go-boot/graph/model"
 )
 
 // CreateTodo is the resolver for the createTodo field.

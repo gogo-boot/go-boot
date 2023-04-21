@@ -1,4 +1,4 @@
-module example.com/go-web-template
+module example.com/go-boot
 
 go 1.20
 

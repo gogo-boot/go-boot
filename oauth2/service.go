@@ -2,7 +2,7 @@ package oauth2
 
 import (
 	"context"
-	. "example.com/go-web-template/config"
+	. "example.com/go-boot/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
