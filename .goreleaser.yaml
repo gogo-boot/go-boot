@@ -36,6 +36,14 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
+    files:
+      - config/config.yml
+      - LICENSE.txt
+      - README_{{.Os}}.md
+      - CHANGELOG.md
+      - docs/*
+      - design/*.png
+      - template/**/*
 checksum:
   name_template: 'checksums.txt'
 snapshot:

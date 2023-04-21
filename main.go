@@ -4,13 +4,12 @@ import (
 	. "example.com/go-boot/config"
 	"example.com/go-boot/graph"
 	"example.com/go-boot/middlewares"
-	myOidc "example.com/go-boot/oidc"
+	"example.com/go-boot/oauth2"
 	"example.com/go-boot/openapi"
 	"example.com/go-boot/restapi"
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+	"net/http"
 )
 
 var server *gin.Engine
@@ -26,37 +25,19 @@ func init() {
 	server = gin.New()
 	server.Use(gin.Recovery())
 	server.Use(middlewares.LoggingMiddleware())
-}
 
-// Defining the Graphql handler
-func graphqlHandler() gin.HandlerFunc {
-	// NewExecutableSchema and Config are in the generated.go file
-	// Resolver is in the resolver.go file
-	h := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
-
-	return func(c *gin.Context) {
-		h.ServeHTTP(c.Writer, c.Request)
-	}
-}
-
-// Defining the Playground handler
-func playgroundHandler() gin.HandlerFunc {
-	h := playground.Handler("GraphQL", "/query")
-
-	return func(c *gin.Context) {
-		h.ServeHTTP(c.Writer, c.Request)
-	}
+	server.LoadHTMLGlob("template/*")
 }
 
 func main() {
 
-	server.POST("/query", graphqlHandler())
-	server.GET("/", playgroundHandler())
+	server.Any("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
 	openapi.NewRouter(server.Group("/openapi"))
 	restapi.Routes(server.Group("/restapi"))
-	//graphql.Routes(server.Group("/graphql"))
-	//oauth2.Routes(server.Group("/login"))
-	myOidc.Routes(server.Group("/login"))
-
+	graph.Routes(server.Group("/graphql"))
+	oauth2.Routes(server.Group("/login"))
+	//myOidc.Routes(server.Group("/login"))
 	server.Run(":" + AppConfig.Server.PortNumber)
 }

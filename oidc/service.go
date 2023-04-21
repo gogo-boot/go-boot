@@ -60,6 +60,7 @@ type WebSSO struct {
 var token *oauth2.Token
 var idToken *oidc.IDToken
 var webSSO WebSSO
+var rawIDToken string
 
 func Routes(rg *gin.RouterGroup) {
 	rg.GET("/", showIndex)
@@ -72,12 +73,7 @@ func Routes(rg *gin.RouterGroup) {
 
 func logout(c *gin.Context) {
 	c.SetCookie("JSESSIONID", "", 0, "/", "localhost", false, false)
-	var htmlIndex = []byte(`<html>
-				<body>
-						Logout Success<br/>
-				</body>
-				</html>`)
-	c.Data(http.StatusOK, "text/html; charset=utf-8", htmlIndex)
+	c.HTML(http.StatusOK, "logout.html", gin.H{})
 }
 
 func login(c *gin.Context) {
@@ -86,16 +82,7 @@ func login(c *gin.Context) {
 }
 
 func showIndex(c *gin.Context) {
-	var htmlIndex = []byte(`<html>
-				<body>
-						<br><a href="/login/login">login</a>
-						<br><a href="/login/logout">logout</a>
-						<br><a href="/login/info">show token info</a>
-						<br><a href="/login/external">call external service</a>
-						<br><a href="/login/only-with-role">only with role</a>
-				</body>
-				</html>`)
-	c.Data(http.StatusOK, "text/html; charset=utf-8", htmlIndex)
+	c.HTML(http.StatusOK, "login.html", gin.H{})
 }
 func loginProcess(c *gin.Context) {
 
@@ -107,7 +94,8 @@ func loginProcess(c *gin.Context) {
 		}
 
 		// Extract the ID Token from OAuth2 token.
-		rawIDToken, ok := token.Extra("id_token").(string)
+		var ok bool
+		rawIDToken, ok = token.Extra("id_token").(string)
 		if !ok {
 			// handle missing token
 		}
@@ -126,18 +114,19 @@ func loginProcess(c *gin.Context) {
 		if err = idToken.Claims(&claims); err != nil {
 			// handle error
 		}
-
 		response := fmt.Sprintf("<html><body>Login Success and Retriving token is successful<br/></body></html>")
 		c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
 	}
 }
 func showTokenInfo(c *gin.Context) {
 
-	response := fmt.Sprintf("<html><body>accesstoken : %s<br/>"+
-		"refreshtoken : %s<br/>"+
-		"tokentype: %s<br/>"+
-		"tokenexpiry : %s<br/></body></html>", token.AccessToken, token.RefreshToken, token.TokenType, token.Expiry)
-	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
+	c.HTML(http.StatusOK, "tokeninfo.html", gin.H{
+		"accessToken":  token.AccessToken,
+		"refreshToken": token.RefreshToken,
+		"tokenType":    token.TokenType,
+		"tokenExpiry":  token.Expiry,
+		"idToken":      rawIDToken,
+	})
 }
 func getExternalSite(c *gin.Context) {
 	if webSSO.State != oauthStateString {

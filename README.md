@@ -41,6 +41,7 @@ go mod tidy
 then the unused framework will be removed and the build package will be slimmer.
 
 ## Feature
+- HTML Template
 - Rest API
   - OpenAPI
   - GraphQL
@@ -72,12 +73,16 @@ adjust router group in the main.go file.
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
 ## Roadmap
+- implement Html Streaming
 - DB Connection 
+- implement Health check endpoint
 - Implement Role based authorization
-- Unit Test
+- Add Unit Test
+- CICD automation
 - Bug fix : 
   - critical : login per context safe / per user safe
 - Refactorings / Magics
+- Documentation
 - Release
 
 ## Reference 
