@@ -60,6 +60,7 @@ type WebSSO struct {
 var token *oauth2.Token
 var idToken *oidc.IDToken
 var webSSO WebSSO
+var rawIDToken string
 
 func Routes(rg *gin.RouterGroup) {
 	rg.GET("/", showIndex)
@@ -93,7 +94,8 @@ func loginProcess(c *gin.Context) {
 		}
 
 		// Extract the ID Token from OAuth2 token.
-		rawIDToken, ok := token.Extra("id_token").(string)
+		var ok bool
+		rawIDToken, ok = token.Extra("id_token").(string)
 		if !ok {
 			// handle missing token
 		}
@@ -112,18 +114,18 @@ func loginProcess(c *gin.Context) {
 		if err = idToken.Claims(&claims); err != nil {
 			// handle error
 		}
-
 		response := fmt.Sprintf("<html><body>Login Success and Retriving token is successful<br/></body></html>")
 		c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
 	}
 }
 func showTokenInfo(c *gin.Context) {
+
 	c.HTML(http.StatusOK, "tokeninfo.html", gin.H{
 		"accessToken":  token.AccessToken,
 		"refreshToken": token.RefreshToken,
 		"tokenType":    token.TokenType,
 		"tokenExpiry":  token.Expiry,
-		"idToken":      idToken,
+		"idToken":      rawIDToken,
 	})
 }
 func getExternalSite(c *gin.Context) {
