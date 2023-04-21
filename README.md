@@ -25,7 +25,7 @@ goreleaser release --clean
 ## Running
 
 ```agsl
-docker run -p 8080:8080 mgcos1231/go-web-template 
+docker run -p 8080:8080 mgcos1231/go-boot 
 ```
 
 ## Source code start point

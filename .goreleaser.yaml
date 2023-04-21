@@ -59,7 +59,7 @@ dockers:
     goarch: amd64
     goamd64: 'v3'
     ids:
-      - go-web-template
+      - go-boot
     image_templates:
       - "docker.io/mgcos1231/{{ .ProjectName }}:latest-amd64"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
@@ -82,7 +82,7 @@ dockers:
     goarch: arm64
     goarm: 8
     ids:
-      - go-web-template
+      - go-boot
     image_templates:
       - "docker.io/mgcos1231/{{ .ProjectName }}:latest-arm64v8"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"

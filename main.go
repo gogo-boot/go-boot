@@ -1,12 +1,12 @@
 package main
 
 import (
-	. "example.com/go-web-template/config"
-	"example.com/go-web-template/graph"
-	"example.com/go-web-template/middlewares"
-	myOidc "example.com/go-web-template/oidc"
-	"example.com/go-web-template/openapi"
-	"example.com/go-web-template/restapi"
+	. "example.com/go-boot/config"
+	"example.com/go-boot/graph"
+	"example.com/go-boot/middlewares"
+	myOidc "example.com/go-boot/oidc"
+	"example.com/go-boot/openapi"
+	"example.com/go-boot/restapi"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
