@@ -49,7 +49,7 @@ func playgroundHandler() gin.HandlerFunc {
 }
 
 func main() {
-
+	server.LoadHTMLGlob("template/*")
 	server.POST("/query", graphqlHandler())
 	server.GET("/", playgroundHandler())
 	openapi.NewRouter(server.Group("/openapi"))

@@ -62,12 +62,7 @@ func Routes(rg *gin.RouterGroup) {
 
 func logout(c *gin.Context) {
 	c.SetCookie("JSESSIONID", "", 0, "/", "localhost", false, false)
-	var htmlIndex = []byte(`<html>
-				<body>
-						Logout Success<br/>
-				</body>
-				</html>`)
-	c.Data(http.StatusOK, "text/html; charset=utf-8", htmlIndex)
+	c.HTML(http.StatusOK, "logout.tmpl", gin.H{})
 }
 
 func login(c *gin.Context) {
@@ -76,16 +71,7 @@ func login(c *gin.Context) {
 }
 
 func showIndex(c *gin.Context) {
-	var htmlIndex = []byte(`<html>
-				<body>
-						<br><a href="/login/login">login</a>
-						<br><a href="/login/logout">logout</a>
-						<br><a href="/login/info">show token info</a>
-						<br><a href="/login/external">call external service</a>
-						<br><a href="/login/only-with-role">only with role</a>
-				</body>
-				</html>`)
-	c.Data(http.StatusOK, "text/html; charset=utf-8", htmlIndex)
+	c.HTML(http.StatusOK, "login.tmpl", gin.H{})
 }
 func loginProcess(c *gin.Context) {
 	if c.Bind(&webSSO) == nil {
