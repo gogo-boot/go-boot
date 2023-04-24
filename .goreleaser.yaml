@@ -1,4 +1,3 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
@@ -38,7 +37,7 @@ archives:
         format: zip
     files:
       - config/config.yml
-#      - LICENSE.txt
+      - LICENSE
 #      - README_{{.Os}}.md
 #      - CHANGELOG.md
 #      - docs/*
@@ -59,8 +58,6 @@ changelog:
 # Feel free to remove those if you don't want/use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
-
-# .goreleaser.yaml
 dockers:
   -
     goos: linux

@@ -12,7 +12,7 @@ import (
 	"net/http"
 )
 
-var server *gin.Engine
+var router *gin.Engine
 
 func init() {
 	logLevel, _ := log.ParseLevel(AppConfig.Server.LogLevel)
@@ -21,23 +21,24 @@ func init() {
 	log.SetFormatter(&log.JSONFormatter{}) //for easy parsing by logstash or Splunk
 
 	// HTTP Server Set up
-	// server = gin.Default() // Default Mode
-	server = gin.New()
-	server.Use(gin.Recovery())
-	server.Use(middlewares.LoggingMiddleware())
+	// router = gin.Default() // Default Mode
+	router = gin.New()
+	router.Use(gin.Recovery())
+	router.Use(middlewares.LoggingMiddleware())
 
-	server.LoadHTMLGlob("template/*")
+	// Load HTML Template
+	router.LoadHTMLGlob("template/*")
 }
 
 func main() {
 
-	server.Any("/", func(c *gin.Context) {
+	router.Any("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
-	openapi.NewRouter(server.Group("/openapi"))
-	restapi.Routes(server.Group("/restapi"))
-	graph.Routes(server.Group("/graphql"))
-	oauth2.Routes(server.Group("/login"))
-	//myOidc.Routes(server.Group("/login"))
-	server.Run(":" + AppConfig.Server.PortNumber)
+	openapi.NewRouter(router.Group("/openapi"))
+	restapi.Routes(router.Group("/restapi"))
+	graph.Routes(router.Group("/graphql"))
+	oauth2.Routes(router.Group("/login"))
+	//myOidc.Routes(router.Group("/login"))
+	router.Run("127.0.0.1:" + AppConfig.Server.PortNumber)
 }
