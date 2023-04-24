@@ -1,22 +1,34 @@
 
 ## Description
-It is simple web template project, which is written in Go with popular go frameworks.
-It uses these frameworks. Gin/ GORM/ Graphql-Go/ Oauth2 for Go/ Casbin/ GoReleaser
+It is a simple web template project, which is written in Go with popular go frameworks.
+It uses these frameworks. Gin/ Logrus/ Gqlgen/ Oauth2, OIDC for Go/ Casbin/ GoReleaser
 
 This template shows how to use RestAPI, Graphql, Oauth2, Authentication, Authorization, Database Connection, 
 and build and packaging.
 
-It will be built and packaged in Docker Image. If you don't want docker image build, 
-you can configure _.goreleaser.yaml_ file.
+It will build and package the binary in Docker Image. You can configure  
+_.goreleaser.yaml_ file for further build and package automation. 
 
+## Prepare Running environment
+```bash
+brew install goenv goreleaser
+goenv install 1.20.1
+goenv global 1.20.1
+git clone git@github.com:mgcos1231/go-boot.git
+cd go-boot && go mod tidy && go run .
+```
+## Build 
+```bash
+go build .
+```
 ## Deployment
 Deployment test
-```agsl
+```bash
 goreleaser release --clean --snapshot
 ```
 Deployment on Prod.
-you need to set github token 
-```agsl
+you need to set a GitHub token 
+```bash
 export GITHUB_TOKEN=xxxxxx
 git tag 0.0.1
 goreleaser release --clean
@@ -24,7 +36,7 @@ goreleaser release --clean
 
 ## Running
 
-```agsl
+```bash
 docker run -p 8080:8080 mgcos1231/go-boot 
 ```
 
@@ -34,7 +46,7 @@ you can start review from _main.go_ file and follow further for more detail.
 ## Update Dependencies and organize dependencies
 This uses several frameworks. RestAPI, Graphql, Oauth2, GORM... 
 If you don't need of it, you can delete the directory and update _main.go_ file.
-```agsl
+```bash
 go get -u
 go mod tidy
 ```
@@ -55,7 +67,7 @@ then the unused framework will be removed and the build package will be slimmer.
 
 ## Generate OpenAPI Code
 
-```azure
+```bash
 # Install by npm
 # npm install @openapitools/openapi-generator-cli -g
 # Install by brew
@@ -95,7 +107,9 @@ from the following reference site.
 
 [Go Graphql Framework / graphql-go](https://github.com/graph-gophers/graphql-go)
 
-[Go Authentification Framework / OAuth2 for Go](https://github.com/golang/oauth2)
+[Go Authentication Framework / OAuth2 for Go](https://github.com/golang/oauth2)
+
+[Go Authentication Framework / Go OIDC](https://github.com/coreos/go-oidc)
 
 [Go Authorization Framework / Casbin](https://github.com/casbin/casbin)
 
