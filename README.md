@@ -24,7 +24,7 @@ go build .
 ## Deployment
 Deployment test
 ```bash
-goreleaser release --clean --snapshot
+goreleaser release --clean --snapshot --skip-publish
 ```
 Deployment on Prod.
 you need to set a GitHub token 
