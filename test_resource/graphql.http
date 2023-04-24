@@ -10,13 +10,9 @@ GET localhost:8080/graphql/
 %}
 ###  POST request
 POST localhost:8080/graphql/query
-Content-Type: text/plain;charset=UTF-8
+Content-Type: application/json;charset=UTF-8
 
-{
-   "query":"{ getPet(id: 2) {  name owner { name pets { id name } }}}",
-   "variables":null,
-   "operationName":null
-}
+{"query":"query findTodos {\n  todos {\n    text\n    done\n    id\n    user {\n      id\n      name\n    }\n  }\n}","operationName":"findTodos"}
 
 > {%
     client.test("Request executed successfully", function() {
