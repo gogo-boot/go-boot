@@ -4,7 +4,7 @@ import (
 	. "example.com/go-boot/config"
 	"example.com/go-boot/graph"
 	"example.com/go-boot/middlewares"
-	"example.com/go-boot/oauth2"
+	"example.com/go-boot/oidc"
 	"example.com/go-boot/openapi"
 	"example.com/go-boot/restapi"
 	"github.com/gin-gonic/gin"
@@ -38,7 +38,7 @@ func main() {
 	openapi.NewRouter(router.Group("/openapi"))
 	restapi.Routes(router.Group("/restapi"))
 	graph.Routes(router.Group("/graphql"))
-	oauth2.Routes(router.Group("/login"))
-	//myOidc.Routes(router.Group("/login"))
+	//oauth2.Routes(router.Group("/login"))
+	oidc.Routes(router.Group("/login"))
 	router.Run("127.0.0.1:" + AppConfig.Server.PortNumber)
 }

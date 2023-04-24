@@ -18,6 +18,7 @@ oidc:
   clientId: ${CLIENT_ID}
   clientSecret: ${CLIENT_SECRET}
   scopes:
+    - "54f98af6-5da1-4d54-8610-8fad122aa628/.default"
     - "openid"
     - "profile"
     - "email"
