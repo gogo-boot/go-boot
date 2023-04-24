@@ -7,6 +7,7 @@ import (
 	"example.com/go-boot/oidc"
 	"example.com/go-boot/openapi"
 	"example.com/go-boot/restapi"
+	"example.com/go-boot/sse"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -40,5 +41,6 @@ func main() {
 	graph.Routes(router.Group("/graphql"))
 	//oauth2.Routes(router.Group("/login"))
 	oidc.Routes(router.Group("/login"))
+	sse.Routes(router.Group("/sse"))
 	router.Run("127.0.0.1:" + AppConfig.Server.PortNumber)
 }
