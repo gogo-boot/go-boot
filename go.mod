@@ -14,7 +14,7 @@ require (
 
 require (
 	github.com/agnivade/levenshtein v1.1.1 // indirect
-	github.com/bytedance/sonic v1.8.7 // indirect
+	github.com/bytedance/sonic v1.8.8 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/fatih/color v1.15.0 // indirect
