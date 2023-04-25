@@ -82,6 +82,7 @@ dockers:
       - --tls-verify=false
     extra_files:
       - config/config.yml
+      - template
   -
     goos: linux
     goarch: arm64
@@ -105,6 +106,7 @@ dockers:
       - --tls-verify=false
     extra_files:
       - config/config.yml
+      - template
 docker_manifests:
   - name_template: "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Version }}"
     image_templates:

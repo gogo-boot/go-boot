@@ -42,5 +42,5 @@ func main() {
 	//oauth2.Routes(router.Group("/login"))
 	oidc.Routes(router.Group("/login"))
 	sse.Routes(router.Group("/sse"))
-	router.Run("127.0.0.1:" + AppConfig.Server.PortNumber)
+	router.Run(":" + AppConfig.Server.PortNumber)
 }
