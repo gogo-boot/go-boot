@@ -1,6 +1,7 @@
 package sse
 
 import (
+	"example.com/go-boot/initializer"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
@@ -27,6 +28,9 @@ type Event struct {
 // New event messages are broadcast to all registered client connection channels
 type ClientChan chan string
 
+func init() {
+	Routes(initializer.Router.Group("/sse"))
+}
 func Routes(rg *gin.RouterGroup) {
 	// Initialize new streaming server
 	stream := NewServer()

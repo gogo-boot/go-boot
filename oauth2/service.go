@@ -3,6 +3,7 @@ package oauth2
 import (
 	"context"
 	. "example.com/go-boot/config"
+	"example.com/go-boot/initializer"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
@@ -17,6 +18,9 @@ var (
 )
 var ctx = context.Background()
 
+func init() {
+	Routes(initializer.Router.Group("/login"))
+}
 func init() {
 	oauthConfig = &oauth2.Config{
 		RedirectURL:  AppConfig.Oauth2.RedirectUrl,

@@ -4,46 +4,34 @@ import (
 	"example.com/go-boot/actuator"
 	. "example.com/go-boot/config"
 	"example.com/go-boot/graph"
-	"example.com/go-boot/middleware"
-	"example.com/go-boot/oidc"
+	"example.com/go-boot/initializer"
 	"example.com/go-boot/openapi"
 	"example.com/go-boot/restapi"
 	"example.com/go-boot/sse"
 	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
-var router *gin.Engine
+type load func(*gin.RouterGroup)
 
-func init() {
-	logLevel, _ := log.ParseLevel(AppConfig.Server.LogLevel)
-	log.SetLevel(logLevel)
-	// Log as JSON instead of the default ASCII formatter.
-	log.SetFormatter(&log.JSONFormatter{}) //for easy parsing by logstash or Splunk
-
-	// HTTP Server Set up
-	// router = gin.Default() // Default Mode
-	router = gin.New()
-	router.Use(gin.Recovery())
-	router.Use(middleware.LoggingMiddleware())
-
-	// Load HTML Template
-	router.LoadHTMLGlob("template/*")
+func serviceLoad(fn load) {
 }
 
 func main() {
 
-	router.Any("/", func(c *gin.Context) {
+	serviceLoad(openapi.NewRouter)
+	serviceLoad(restapi.Routes)
+	serviceLoad(graph.Routes)
+	//service_load(oauth2.Routes)
+	//service_load(oidc.Routes)
+	serviceLoad(sse.Routes)
+	serviceLoad(actuator.Routes)
+	initializer.Router.Any("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
-	openapi.NewRouter(router.Group("/openapi"))
-	restapi.Routes(router.Group("/restapi"))
-	graph.Routes(router.Group("/graphql"))
-	//oauth2.Routes(router.Group("/login"))
-	oidc.Routes(router.Group("/login"))
-	sse.Routes(router.Group("/sse"))
-	actuator.Routes(router.Group("/actuator"))
-	//Todo set Host only for local test
-	router.Run(":" + AppConfig.Server.PortNumber)
+	//graph.Routes(Router.Group("/graphql"))
+	////oauth2.Routes(Router.Group("/login"))
+	//oidc.Routes(Router.Group("/login"))
+	//Todo set Host - only for local test
+	initializer.Router.Run(":" + AppConfig.Server.PortNumber)
 }
