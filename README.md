@@ -83,7 +83,7 @@ openapi-generator-cli generate -i petstore.yaml -g go-gin-server -o ./opeapi-gen
 
 adjust router group in the main.go file.
 
-## Integration Test
+## Http Endpoints & Integration Test
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
 ## Roadmap
