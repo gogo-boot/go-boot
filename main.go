@@ -15,6 +15,8 @@ import (
 
 type load func(*gin.RouterGroup)
 
+// Use package load side effect. When it is loaded, the init function will be initiated
+// The init function load "Route" pointer from initializer.
 func serviceLoad(fn load) {
 }
 

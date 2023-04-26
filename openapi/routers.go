@@ -10,6 +10,7 @@
 package openapi
 
 import (
+	"example.com/go-boot/initializer"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,10 @@ type Route struct {
 
 // Routes is the list of the generated Route.
 type Routes []Route
+
+func init() {
+	NewRouter(initializer.Router.Group("/openapi"))
+}
 
 // NewRouter returns a new router.
 func NewRouter(rg *gin.RouterGroup) {
