@@ -4,6 +4,7 @@ package graph
 
 import (
 	"example.com/go-boot/graph/model"
+	"example.com/go-boot/initializer"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,9 @@ type Resolver struct {
 	todos []*model.Todo
 }
 
+func init() {
+	Routes(initializer.Router.Group("/graphql"))
+}
 func Routes(rg *gin.RouterGroup) {
 	rg.POST("/query", graphqlHandler())
 	rg.GET("/", playgroundHandler())

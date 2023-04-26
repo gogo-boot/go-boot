@@ -3,6 +3,7 @@ package oauth2
 import (
 	"context"
 	. "example.com/go-boot/config"
+	"example.com/go-boot/initializer"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
@@ -18,12 +19,16 @@ var (
 var ctx = context.Background()
 
 func init() {
+	Routes(initializer.Router.Group("/login"))
+}
+func init() {
 	oauthConfig = &oauth2.Config{
 		RedirectURL:  AppConfig.Oauth2.RedirectUrl,
 		ClientID:     AppConfig.Oauth2.ClientId,
 		ClientSecret: AppConfig.Oauth2.ClientSecret,
 		Scopes:       AppConfig.Oauth2.Scopes,
-		Endpoint:     endpoints.AzureAD(AppConfig.Oauth2.Tenant),
+		// Todo not only for Azure Endpoint
+		Endpoint: endpoints.AzureAD(AppConfig.Oauth2.Tenant),
 	}
 }
 

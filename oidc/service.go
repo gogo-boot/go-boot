@@ -3,6 +3,7 @@ package oidc
 import (
 	"context"
 	. "example.com/go-boot/config"
+	"example.com/go-boot/initializer"
 	"fmt"
 	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,9 @@ var ctx = context.Background()
 
 var verifier *oidc.IDTokenVerifier
 
+func init() {
+	Routes(initializer.Router.Group("/login"))
+}
 func init() {
 
 	provider, err := oidc.NewProvider(ctx, AppConfig.Oidc.Issuer)

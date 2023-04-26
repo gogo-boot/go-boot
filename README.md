@@ -53,6 +53,7 @@ go mod tidy
 then the unused framework will be removed and the build package will be slimmer.
 
 ## Feature
+- Health check endpoint
 - Server-Side Events
 - HTML Template
 - Rest API
@@ -82,12 +83,11 @@ openapi-generator-cli generate -i petstore.yaml -g go-gin-server -o ./opeapi-gen
 
 adjust router group in the main.go file.
 
-## Integration Test
+## Http Endpoints & Integration Test
 you can open *.http files with IntelliJ and send http request or test by clicking without typing
 
 ## Roadmap
 - DB Connection 
-- implement Health check endpoint
 - Implement Role based authorization
 - Add Unit Test
 - CICD automation
@@ -95,15 +95,13 @@ you can open *.http files with IntelliJ and send http request or test by clickin
   - critical : login per context safe / per user safe
 - Refactorings / Magics
 - Documentation
-- Release
+- Release 1.0
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
 from the following reference site.
 
 [Gin Web Framework](https://github.com/gin-gonic/gin)
-
-[Go ORM Framework / GORM](https://github.com/go-gorm/gorm)
 
 [Go Graphql Framework / graphql-go](https://github.com/graph-gophers/graphql-go)
 
