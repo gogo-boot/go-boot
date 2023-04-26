@@ -1,6 +1,7 @@
 package main
 
 import (
+	"example.com/go-boot/actuator"
 	. "example.com/go-boot/config"
 	"example.com/go-boot/graph"
 	"example.com/go-boot/middlewares"
@@ -42,5 +43,6 @@ func main() {
 	//oauth2.Routes(router.Group("/login"))
 	oidc.Routes(router.Group("/login"))
 	sse.Routes(router.Group("/sse"))
+	actuator.Routes(router.Group("/actuator"))
 	router.Run(":" + AppConfig.Server.PortNumber)
 }
