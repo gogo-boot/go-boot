@@ -4,7 +4,7 @@ import (
 	"example.com/go-boot/actuator"
 	. "example.com/go-boot/config"
 	"example.com/go-boot/graph"
-	"example.com/go-boot/middlewares"
+	"example.com/go-boot/middleware"
 	"example.com/go-boot/oidc"
 	"example.com/go-boot/openapi"
 	"example.com/go-boot/restapi"
@@ -26,7 +26,7 @@ func init() {
 	// router = gin.Default() // Default Mode
 	router = gin.New()
 	router.Use(gin.Recovery())
-	router.Use(middlewares.LoggingMiddleware())
+	router.Use(middleware.LoggingMiddleware())
 
 	// Load HTML Template
 	router.LoadHTMLGlob("template/*")
@@ -44,5 +44,6 @@ func main() {
 	oidc.Routes(router.Group("/login"))
 	sse.Routes(router.Group("/sse"))
 	actuator.Routes(router.Group("/actuator"))
+	//Todo set Host only for local test
 	router.Run(":" + AppConfig.Server.PortNumber)
 }

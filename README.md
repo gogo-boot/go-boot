@@ -53,6 +53,7 @@ go mod tidy
 then the unused framework will be removed and the build package will be slimmer.
 
 ## Feature
+- Health check endpoint
 - Server-Side Events
 - HTML Template
 - Rest API
@@ -87,7 +88,6 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 
 ## Roadmap
 - DB Connection 
-- implement Health check endpoint
 - Implement Role based authorization
 - Add Unit Test
 - CICD automation
