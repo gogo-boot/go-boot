@@ -95,15 +95,13 @@ you can open *.http files with IntelliJ and send http request or test by clickin
   - critical : login per context safe / per user safe
 - Refactorings / Magics
 - Documentation
-- Release
+- Release 1.0
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
 from the following reference site.
 
 [Gin Web Framework](https://github.com/gin-gonic/gin)
-
-[Go ORM Framework / GORM](https://github.com/go-gorm/gorm)
 
 [Go Graphql Framework / graphql-go](https://github.com/graph-gophers/graphql-go)
 
