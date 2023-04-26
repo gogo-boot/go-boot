@@ -27,7 +27,8 @@ func init() {
 		ClientID:     AppConfig.Oauth2.ClientId,
 		ClientSecret: AppConfig.Oauth2.ClientSecret,
 		Scopes:       AppConfig.Oauth2.Scopes,
-		Endpoint:     endpoints.AzureAD(AppConfig.Oauth2.Tenant),
+		// Todo not only for Azure Endpoint
+		Endpoint: endpoints.AzureAD(AppConfig.Oauth2.Tenant),
 	}
 }
 
