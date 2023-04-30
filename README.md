@@ -88,6 +88,7 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 
 ## Roadmap
 - DB Connection 
+- Implement OIDC Logout
 - Implement Role based authorization (Casbin)
 - Add Unit Test
 - CICD automation
