@@ -91,8 +91,6 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 - Implement Role based authorization
 - Add Unit Test
 - CICD automation
-- Bug fix : 
-  - critical : login per context safe / per user safe
 - Refactorings / Magics
 - Documentation
 - Release 1.0
