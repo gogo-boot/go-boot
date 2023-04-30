@@ -1,7 +1,7 @@
 package main
 
 import (
-	"example.com/go-boot/actuator"
+	"example.com/go-boot/platform/actuator"
 	. "example.com/go-boot/platform/config"
 	"example.com/go-boot/platform/initializer"
 	"example.com/go-boot/web/app/graph"
