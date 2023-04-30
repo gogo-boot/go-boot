@@ -10,7 +10,7 @@
 package openapi
 
 import (
-	"example.com/go-boot/initializer"
+	"example.com/go-boot/platform/initializer"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

@@ -2,8 +2,8 @@ package oidc
 
 import (
 	"context"
-	. "example.com/go-boot/config"
-	"example.com/go-boot/initializer"
+	. "example.com/go-boot/platform/config"
+	"example.com/go-boot/platform/initializer"
 	"fmt"
 	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/gin-gonic/gin"

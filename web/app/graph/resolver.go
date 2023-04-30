@@ -3,8 +3,8 @@ package graph
 //go:generate go run github.com/99designs/gqlgen generate
 
 import (
-	"example.com/go-boot/graph/model"
-	"example.com/go-boot/initializer"
+	"example.com/go-boot/platform/initializer"
+	"example.com/go-boot/web/app/graph/model"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"

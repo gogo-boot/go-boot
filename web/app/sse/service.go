@@ -1,7 +1,7 @@
 package sse
 
 import (
-	"example.com/go-boot/initializer"
+	"example.com/go-boot/platform/initializer"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"

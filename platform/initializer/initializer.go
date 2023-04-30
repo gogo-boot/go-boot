@@ -1,8 +1,8 @@
 package initializer
 
 import (
-	. "example.com/go-boot/config"
-	"example.com/go-boot/middleware"
+	. "example.com/go-boot/platform/config"
+	"example.com/go-boot/platform/middleware"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
@@ -23,5 +23,5 @@ func init() {
 	Router.Use(middleware.LoggingMiddleware())
 
 	// Load HTML Template
-	Router.LoadHTMLGlob("template/*")
+	Router.LoadHTMLGlob("web/template/*")
 }
