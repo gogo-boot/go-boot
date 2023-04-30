@@ -18,7 +18,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 )
 
 // Authenticator is used to authenticate our users.
@@ -88,7 +87,7 @@ func Routes(rg *gin.RouterGroup) {
 
 func logoutHandler(ctx *gin.Context) {
 
-	logoutUrl, err := url.Parse("https://" + os.Getenv("AUTH0_DOMAIN") + "/v2/logout")
+	logoutUrl, err := url.Parse("https://login.microsoftonline.com/a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd/oauth2/v2.0/logout")
 	if err != nil {
 		ctx.String(http.StatusInternalServerError, err.Error())
 		return
@@ -109,6 +108,9 @@ func logoutHandler(ctx *gin.Context) {
 	parameters.Add("returnTo", returnTo.String())
 	parameters.Add("client_id", AppConfig.Oidc.ClientId)
 	logoutUrl.RawQuery = parameters.Encode()
+
+	session := sessions.Default(ctx)
+	session.Clear()
 
 	ctx.Redirect(http.StatusTemporaryRedirect, logoutUrl.String())
 }
