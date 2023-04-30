@@ -9,15 +9,16 @@ import (
 	. "example.com/go-boot/platform/config"
 	"example.com/go-boot/platform/initializer"
 	"example.com/go-boot/platform/middleware"
+	"fmt"
 	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
-	"time"
 )
 
 // Authenticator is used to authenticate our users.
@@ -68,23 +69,6 @@ func init() {
 	Routes(initializer.Router.Group("/login"))
 }
 
-type UserInfo struct {
-	accessTokenSub        string
-	idTokenName           string
-	accessTokenExpiration time.Time
-	idTokenExpiration     time.Time
-	idTokenValue          string
-	accessTokenValue      string
-}
-
-type WebSSO struct {
-	State        string `form:"state"`
-	Code         string `form:"code"`
-	SessionState string `form:"session_state"`
-}
-
-var rawIDToken string
-
 func Routes(rg *gin.RouterGroup) {
 
 	auth, err := New()
@@ -98,8 +82,8 @@ func Routes(rg *gin.RouterGroup) {
 	rg.GET("/oauth2/code/dbwebsso", callBackHandler(auth))
 	rg.GET("/user", middleware.IsAuthenticated, showUserInfo)
 	rg.GET("/logout", logoutHandler)
-	//rg.GET("/info", showTokenInfo)
-	//rg.GET("/external", getExternalSite)
+	rg.GET("/info", showTokenInfo)
+	rg.GET("/external", getExternalSite(auth))
 }
 
 func logoutHandler(ctx *gin.Context) {
@@ -174,7 +158,6 @@ func showHome(c *gin.Context) {
 func callBackHandler(auth *Authenticator) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		session := sessions.Default(ctx)
-		//sessions.DefaultMany(ctx)
 		if ctx.Query("state") != session.Get("state") {
 			ctx.String(http.StatusBadRequest, "Invalid state parameter.")
 			return
@@ -206,7 +189,7 @@ func callBackHandler(auth *Authenticator) gin.HandlerFunc {
 			return
 		}
 
-		session.Set("access_token", token.AccessToken)
+		session.Set("token", token)
 		session.Set("profile", profile)
 		if err := session.Save(); err != nil {
 			ctx.String(http.StatusInternalServerError, err.Error())
@@ -222,6 +205,8 @@ func callBackHandler(auth *Authenticator) gin.HandlerFunc {
 func showUserInfo(ctx *gin.Context) {
 	session := sessions.Default(ctx)
 	profile := session.Get("profile")
+
+	// convert struct to map
 	var myMap map[string]interface{}
 	data, _ := json.Marshal(profile)
 	json.Unmarshal(data, &myMap)
@@ -229,34 +214,36 @@ func showUserInfo(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, "user.html", myMap)
 }
 
-//func showTokenInfo(c *gin.Context) {
-//
-//	c.HTML(http.StatusOK, "tokeninfo.html", gin.H{
-//		"accessToken":  token.AccessToken,
-//		"refreshToken": token.RefreshToken,
-//		"tokenType":    token.TokenType,
-//		"tokenExpiry":  token.Expiry,
-//		"idToken":      rawIDToken,
-//	})
-//}
+func showTokenInfo(ctx *gin.Context) {
+	session := sessions.Default(ctx)
+	sessionToken := session.Get("token")
+	token := sessionToken.(oauth2.Token)
 
-/*func getExternalSite(c *gin.Context) {
-	if webSSO.State != oauthStateString {
-		fmt.Errorf("invalid oauth State")
-	}
-
-	client := oauthConfig.Client(ctx, token)
-	response, err := client.Get("https://gateway.hub.db.de/bizhub-api-secured-with-jwt")
-
-	if err != nil {
-		fmt.Errorf("failed getting user info: %s", err.Error())
-	}
-	defer response.Body.Close()
-	contents, err := io.ReadAll(response.Body)
-	if err != nil {
-		fmt.Errorf("failed reading response body: %s", err.Error())
-	}
-	c.Data(http.StatusOK, "text/html; charset=utf-8", contents)
-
+	ctx.HTML(http.StatusOK, "tokeninfo.html", gin.H{
+		"accessToken":  token.AccessToken,
+		"refreshToken": token.RefreshToken,
+		"tokenType":    token.TokenType,
+		"tokenExpiry":  token.Expiry,
+	})
 }
-*/
+
+func getExternalSite(auth *Authenticator) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		session := sessions.Default(ctx)
+		sessionToken := session.Get("token")
+		token := sessionToken.(oauth2.Token)
+
+		client := auth.Config.Client(ctx, &token)
+		response, err := client.Get("https://gateway.hub.db.de/bizhub-api-secured-with-jwt")
+
+		if err != nil {
+			fmt.Errorf("failed getting user info: %s", err.Error())
+		}
+		defer response.Body.Close()
+		contents, err := io.ReadAll(response.Body)
+		if err != nil {
+			fmt.Errorf("failed reading response body: %s", err.Error())
+		}
+		ctx.Data(http.StatusOK, "text/html; charset=utf-8", contents)
+	}
+}

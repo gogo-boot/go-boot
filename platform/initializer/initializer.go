@@ -5,9 +5,10 @@ import (
 	. "example.com/go-boot/platform/config"
 	"example.com/go-boot/platform/middleware"
 	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-contrib/sessions/memstore"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/oauth2"
 )
 
 var Router *gin.Engine
@@ -41,7 +42,8 @@ func init() {
 	// To store custom types in our cookies,
 	// we must first register them using gob.Register
 	gob.Register(profile)
+	gob.Register(oauth2.Token{})
 
-	store := cookie.NewStore([]byte("secret"))
+	store := memstore.NewStore([]byte("secret"))
 	Router.Use(sessions.Sessions("auth-session", store))
 }
