@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	. "example.com/go-boot/platform/config"
 	"example.com/go-boot/platform/initializer"
@@ -82,7 +83,6 @@ type WebSSO struct {
 	SessionState string `form:"session_state"`
 }
 
-var token *oauth2.Token
 var rawIDToken string
 
 func Routes(rg *gin.RouterGroup) {
@@ -93,11 +93,12 @@ func Routes(rg *gin.RouterGroup) {
 	}
 
 	rg.GET("/", showIndex)
+	rg.GET("/loginHome", showHome)
 	rg.GET("/login", loginHandler(auth))
 	rg.GET("/oauth2/code/dbwebsso", callBackHandler(auth))
 	rg.GET("/user", middleware.IsAuthenticated, showUserInfo)
 	rg.GET("/logout", logoutHandler)
-	rg.GET("/info", showTokenInfo)
+	//rg.GET("/info", showTokenInfo)
 	//rg.GET("/external", getExternalSite)
 }
 
@@ -162,6 +163,10 @@ func generateRandomState() (string, error) {
 }
 
 func showIndex(c *gin.Context) {
+	c.HTML(http.StatusOK, "login.html", nil)
+}
+
+func showHome(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", nil)
 }
 
@@ -169,6 +174,7 @@ func showIndex(c *gin.Context) {
 func callBackHandler(auth *Authenticator) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		session := sessions.Default(ctx)
+		//sessions.DefaultMany(ctx)
 		if ctx.Query("state") != session.Get("state") {
 			ctx.String(http.StatusBadRequest, "Invalid state parameter.")
 			return
@@ -187,14 +193,21 @@ func callBackHandler(auth *Authenticator) gin.HandlerFunc {
 			return
 		}
 
-		var profile map[string]interface{}
+		var profile struct {
+			FamilyName string   `json:"family_name"`
+			GivenName  string   `json:"given_name"`
+			Groups     []string `json:"groups"`
+			Email      string   `json:"email"`
+			Name       string   `json:"name"`
+			Roles      []string `json:"roles"`
+		}
 		if err := idToken.Claims(&profile); err != nil {
 			ctx.String(http.StatusInternalServerError, err.Error())
 			return
 		}
 
 		session.Set("access_token", token.AccessToken)
-		//session.Set("profile", profile)
+		session.Set("profile", profile)
 		if err := session.Save(); err != nil {
 			ctx.String(http.StatusInternalServerError, err.Error())
 			return
@@ -209,20 +222,23 @@ func callBackHandler(auth *Authenticator) gin.HandlerFunc {
 func showUserInfo(ctx *gin.Context) {
 	session := sessions.Default(ctx)
 	profile := session.Get("profile")
+	var myMap map[string]interface{}
+	data, _ := json.Marshal(profile)
+	json.Unmarshal(data, &myMap)
 
-	ctx.HTML(http.StatusOK, "user.html", profile)
+	ctx.HTML(http.StatusOK, "user.html", myMap)
 }
 
-func showTokenInfo(c *gin.Context) {
-
-	c.HTML(http.StatusOK, "tokeninfo.html", gin.H{
-		"accessToken":  token.AccessToken,
-		"refreshToken": token.RefreshToken,
-		"tokenType":    token.TokenType,
-		"tokenExpiry":  token.Expiry,
-		"idToken":      rawIDToken,
-	})
-}
+//func showTokenInfo(c *gin.Context) {
+//
+//	c.HTML(http.StatusOK, "tokeninfo.html", gin.H{
+//		"accessToken":  token.AccessToken,
+//		"refreshToken": token.RefreshToken,
+//		"tokenType":    token.TokenType,
+//		"tokenExpiry":  token.Expiry,
+//		"idToken":      rawIDToken,
+//	})
+//}
 
 /*func getExternalSite(c *gin.Context) {
 	if webSSO.State != oauthStateString {

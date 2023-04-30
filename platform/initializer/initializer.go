@@ -29,9 +29,18 @@ func init() {
 	Router.LoadHTMLGlob("web/template/*")
 	Router.Static("/public", "web/static")
 
+	var profile struct {
+		FamilyName string   `json:"family_name"`
+		GivenName  string   `json:"given_name"`
+		Groups     []string `json:"groups"`
+		Email      string   `json:"email"`
+		Name       string   `json:"name"`
+		Roles      []string `json:"roles"`
+	}
+
 	// To store custom types in our cookies,
 	// we must first register them using gob.Register
-	gob.Register(map[string]interface{}{})
+	gob.Register(profile)
 
 	store := cookie.NewStore([]byte("secret"))
 	Router.Use(sessions.Sessions("auth-session", store))
