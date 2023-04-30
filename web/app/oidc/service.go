@@ -67,11 +67,6 @@ func init() {
 	Routes(initializer.Router.Group("/login"))
 }
 
-var (
-	// TODO: randomize it
-	oauthStateString = "pseudo-random"
-)
-
 type UserInfo struct {
 	accessTokenSub        string
 	idTokenName           string
@@ -88,8 +83,6 @@ type WebSSO struct {
 }
 
 var token *oauth2.Token
-var idToken *oidc.IDToken
-var webSSO WebSSO
 var rawIDToken string
 
 func Routes(rg *gin.RouterGroup) {
@@ -201,14 +194,14 @@ func callBackHandler(auth *Authenticator) gin.HandlerFunc {
 		}
 
 		session.Set("access_token", token.AccessToken)
-		session.Set("profile", profile)
+		//session.Set("profile", profile)
 		if err := session.Save(); err != nil {
 			ctx.String(http.StatusInternalServerError, err.Error())
 			return
 		}
 
 		// Redirect to logged in page.
-		ctx.Redirect(http.StatusTemporaryRedirect, "/user")
+		ctx.Redirect(http.StatusTemporaryRedirect, "/login/user")
 	}
 }
 
