@@ -1,8 +1,11 @@
 package initializer
 
 import (
+	"encoding/gob"
 	. "example.com/go-boot/platform/config"
 	"example.com/go-boot/platform/middleware"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
@@ -24,4 +27,12 @@ func init() {
 
 	// Load HTML Template
 	Router.LoadHTMLGlob("web/template/*")
+	Router.Static("/public", "web/static")
+
+	// To store custom types in our cookies,
+	// we must first register them using gob.Register
+	gob.Register(map[string]interface{}{})
+
+	store := cookie.NewStore([]byte("secret"))
+	Router.Use(sessions.Sessions("auth-session", store))
 }
