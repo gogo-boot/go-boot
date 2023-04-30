@@ -2,8 +2,8 @@ package oauth2
 
 import (
 	"context"
-	. "example.com/go-boot/config"
-	"example.com/go-boot/initializer"
+	. "example.com/go-boot/platform/config"
+	"example.com/go-boot/platform/initializer"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"

@@ -39,7 +39,7 @@ func init() {
 	config.WithOptions(config.ParseEnv)
 	config.AddDriver(yamlv3.Driver)
 
-	err := config.LoadFiles("config/config.yml")
+	err := config.LoadFiles("platform/config/config.yml")
 	if err != nil {
 		panic(err)
 	}

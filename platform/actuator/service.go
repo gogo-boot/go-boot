@@ -1,7 +1,7 @@
 package actuator
 
 import (
-	"example.com/go-boot/initializer"
+	"example.com/go-boot/platform/initializer"
 	"github.com/gin-gonic/gin"
 )
 

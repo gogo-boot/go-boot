@@ -1,14 +1,14 @@
 package main
 
 import (
-	"example.com/go-boot/actuator"
-	. "example.com/go-boot/config"
-	"example.com/go-boot/graph"
-	"example.com/go-boot/initializer"
-	"example.com/go-boot/oidc"
-	"example.com/go-boot/openapi"
-	"example.com/go-boot/restapi"
-	"example.com/go-boot/sse"
+	"example.com/go-boot/platform/actuator"
+	. "example.com/go-boot/platform/config"
+	"example.com/go-boot/platform/initializer"
+	"example.com/go-boot/web/app/graph"
+	"example.com/go-boot/web/app/oidc"
+	"example.com/go-boot/web/app/openapi"
+	"example.com/go-boot/web/app/restapi"
+	"example.com/go-boot/web/app/sse"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

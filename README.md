@@ -88,12 +88,11 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 
 ## Roadmap
 - DB Connection 
-- Implement Role based authorization
+- Implement OIDC Logout
+- Implement Role based authorization (Casbin)
 - Add Unit Test
 - CICD automation
-- Bug fix : 
-  - critical : login per context safe / per user safe
-- Refactorings / Magics
+- Refactorings 
 - Documentation
 - Release 1.0
 
@@ -104,6 +103,12 @@ from the following reference site.
 [Gin Web Framework](https://github.com/gin-gonic/gin)
 
 [Go Graphql Framework / graphql-go](https://github.com/graph-gophers/graphql-go)
+
+[Authorization Code Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow)
+
+[Authorization Code Flow with Proof Key for Code Exchange (PKCE)](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow-with-proof-key-for-code-exchange-pkce)
+
+[OIDC Best Practice](https://auth0.com/docs/quickstart/webapp/golang/interactive)
 
 [Go Authentication Framework / OAuth2 for Go](https://github.com/golang/oauth2)
 

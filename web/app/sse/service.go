@@ -1,7 +1,7 @@
 package sse
 
 import (
-	"example.com/go-boot/initializer"
+	"example.com/go-boot/platform/initializer"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
@@ -69,7 +69,7 @@ func Routes(rg *gin.RouterGroup) {
 	})
 
 	// Parse Static files
-	rg.StaticFile("/", "./template/sse.html")
+	rg.StaticFile("/", "./web/template/sse.html")
 }
 
 // Initialize event and Start procnteessing requests
