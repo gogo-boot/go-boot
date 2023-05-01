@@ -168,6 +168,12 @@ func showUserInfo(ctx *gin.Context) {
 func showTokenInfo(ctx *gin.Context) {
 	session := sessions.Default(ctx)
 	sessionToken := session.Get("token")
+	profile := session.Get("profile")
+	// convert struct to map
+	var myMap map[string]interface{}
+	data, _ := json.Marshal(profile)
+	json.Unmarshal(data, &myMap)
+
 	token := sessionToken.(oauth2.Token)
 
 	ctx.HTML(http.StatusOK, "tokeninfo.html", gin.H{
@@ -175,6 +181,7 @@ func showTokenInfo(ctx *gin.Context) {
 		"refreshToken": token.RefreshToken,
 		"tokenType":    token.TokenType,
 		"tokenExpiry":  token.Expiry,
+		"userProfile":  profile,
 	})
 }
 
