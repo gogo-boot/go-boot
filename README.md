@@ -17,10 +17,18 @@ goenv global 1.20.1
 git clone git@github.com:mgcos1231/go-boot.git
 cd go-boot && go mod tidy && go run .
 ```
+
+## Configure
+you can configure server port, loglevel, oauth2 endpoints, oidc endpoints
+```bash
+vi platform/config/config.yml
+
+```
 ## Build 
 ```bash
 go build .
 ```
+
 ## Deployment
 Deployment test
 ```bash
@@ -35,7 +43,6 @@ goreleaser release --clean
 ```
 
 ## Running
-
 ```bash
 docker run -p 8080:8080 mgcos1231/go-boot 
 ```
