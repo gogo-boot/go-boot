@@ -28,5 +28,5 @@ func main() {
 	actuator.Routes(Router.Group("/actuator"))
 
 	//Todo set Host - only for local test
-	Router.Run(":" + AppConfig.Server.PortNumber)
+	Router.Run(AppConfig.Server.Host + ":" + AppConfig.Server.PortNumber)
 }

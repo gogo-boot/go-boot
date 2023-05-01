@@ -12,6 +12,7 @@ type binder struct {
 }
 
 type server struct {
+	Host       string `mapstructure:"host"`
 	PortNumber string `mapstructure:"portNumber"`
 	LogLevel   string `mapstructure:"logLevel"`
 }
