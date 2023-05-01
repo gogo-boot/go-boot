@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"errors"
 	. "example.com/go-boot/platform/config"
-	"example.com/go-boot/platform/initializer"
 	"example.com/go-boot/platform/middleware"
 	"fmt"
 	"github.com/coreos/go-oidc/v3/oidc"
@@ -62,10 +61,6 @@ func (a *Authenticator) VerifyIDToken(ctx context.Context, token *oauth2.Token) 
 	}
 
 	return a.Verifier(oidcConfig).Verify(ctx, rawIDToken)
-}
-
-func init() {
-	Routes(initializer.Router.Group("/login"))
 }
 
 func Routes(rg *gin.RouterGroup) {

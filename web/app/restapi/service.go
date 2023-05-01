@@ -1,7 +1,6 @@
 package restapi
 
 import (
-	"example.com/go-boot/platform/initializer"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -12,9 +11,6 @@ type Person struct {
 	Name string `uri:"name" binding:"required"`
 }
 
-func init() {
-	Routes(initializer.Router.Group("/restapi"))
-}
 func Routes(rg *gin.RouterGroup) {
 	rg.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

@@ -3,7 +3,7 @@ package main
 import (
 	"example.com/go-boot/platform/actuator"
 	. "example.com/go-boot/platform/config"
-	"example.com/go-boot/platform/initializer"
+	. "example.com/go-boot/platform/initializer"
 	"example.com/go-boot/web/app/graph"
 	"example.com/go-boot/web/app/oidc"
 	"example.com/go-boot/web/app/openapi"
@@ -13,26 +13,18 @@ import (
 	"net/http"
 )
 
-type load func(*gin.RouterGroup)
-
-// Use package load side effect. When it is loaded, the init function will be initiated
-// The init function load "Route" pointer from initializer.
-func serviceLoad(fn load) {
-}
-
 func main() {
 
-	initializer.Router.Any("/", func(c *gin.Context) {
+	Router.Any("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
-	serviceLoad(openapi.NewRouter)
-	serviceLoad(restapi.Routes)
-	serviceLoad(graph.Routes)
-	//serviceLoad(oauth2.Routes)
-	serviceLoad(oidc.Routes)
-	serviceLoad(sse.Routes)
-	serviceLoad(actuator.Routes)
+	openapi.NewRouter(Router.Group("/openapi"))
+	restapi.Routes(Router.Group("/restapi"))
+	graph.Routes(Router.Group("/graphql"))
+	oidc.Routes(Router.Group("/login"))
+	sse.Routes(Router.Group("/sse"))
+	actuator.Routes(Router.Group("/actuator"))
 
 	//Todo set Host - only for local test
-	initializer.Router.Run(":" + AppConfig.Server.PortNumber)
+	Router.Run(":" + AppConfig.Server.PortNumber)
 }
