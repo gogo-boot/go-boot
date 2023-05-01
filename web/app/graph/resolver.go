@@ -3,7 +3,6 @@ package graph
 //go:generate go run github.com/99designs/gqlgen generate
 
 import (
-	"example.com/go-boot/platform/initializer"
 	"example.com/go-boot/web/app/graph/model"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -17,9 +16,6 @@ type Resolver struct {
 	todos []*model.Todo
 }
 
-func init() {
-	Routes(initializer.Router.Group("/graphql"))
-}
 func Routes(rg *gin.RouterGroup) {
 	rg.POST("/query", graphqlHandler())
 	rg.GET("/", playgroundHandler())

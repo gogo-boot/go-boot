@@ -1,16 +1,13 @@
 package oidc
 
 import (
-	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
-	"errors"
+	"example.com/go-boot/platform/authenticator"
 	. "example.com/go-boot/platform/config"
-	"example.com/go-boot/platform/initializer"
 	"example.com/go-boot/platform/middleware"
 	"fmt"
-	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -20,57 +17,9 @@ import (
 	"net/url"
 )
 
-// Authenticator is used to authenticate our users.
-type Authenticator struct {
-	*oidc.Provider
-	oauth2.Config
-}
-
-// New instantiates the *Authenticator.
-func New() (*Authenticator, error) {
-	provider, err := oidc.NewProvider(
-		context.Background(),
-		AppConfig.Oidc.Issuer,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	conf := oauth2.Config{
-		RedirectURL:  AppConfig.Oidc.RedirectUrl,
-		ClientID:     AppConfig.Oidc.ClientId,
-		ClientSecret: AppConfig.Oidc.ClientSecret,
-		Endpoint:     provider.Endpoint(),
-		Scopes:       AppConfig.Oidc.Scopes,
-	}
-
-	return &Authenticator{
-		Provider: provider,
-		Config:   conf,
-	}, nil
-}
-
-// VerifyIDToken verifies that an *oauth2.Token is a valid *oidc.IDToken.
-func (a *Authenticator) VerifyIDToken(ctx context.Context, token *oauth2.Token) (*oidc.IDToken, error) {
-	rawIDToken, ok := token.Extra("id_token").(string)
-	if !ok {
-		return nil, errors.New("no id_token field in oauth2 token")
-	}
-
-	oidcConfig := &oidc.Config{
-		ClientID: a.ClientID,
-	}
-
-	return a.Verifier(oidcConfig).Verify(ctx, rawIDToken)
-}
-
-func init() {
-	Routes(initializer.Router.Group("/login"))
-}
-
 func Routes(rg *gin.RouterGroup) {
 
-	auth, err := New()
+	auth, err := authenticator.New()
 	if err != nil {
 		log.Fatalf("Failed to initialize the authenticator: %v", err)
 	}
@@ -116,7 +65,7 @@ func logoutHandler(ctx *gin.Context) {
 }
 
 // Handler for our login.
-func loginHandler(auth *Authenticator) gin.HandlerFunc {
+func loginHandler(auth *authenticator.Authenticator) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		state, err := generateRandomState()
 		if err != nil {
@@ -157,7 +106,7 @@ func showHome(c *gin.Context) {
 }
 
 // Handler for our callback.
-func callBackHandler(auth *Authenticator) gin.HandlerFunc {
+func callBackHandler(auth *authenticator.Authenticator) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		session := sessions.Default(ctx)
 		if ctx.Query("state") != session.Get("state") {
@@ -229,7 +178,7 @@ func showTokenInfo(ctx *gin.Context) {
 	})
 }
 
-func getExternalSite(auth *Authenticator) gin.HandlerFunc {
+func getExternalSite(auth *authenticator.Authenticator) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		session := sessions.Default(ctx)
 		sessionToken := session.Get("token")
