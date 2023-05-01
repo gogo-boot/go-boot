@@ -6,6 +6,7 @@ import (
 	. "example.com/go-boot/platform/config"
 	"github.com/coreos/go-oidc/v3/oidc"
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/endpoints"
 )
 
 // Authenticator is used to authenticate our users.
@@ -15,7 +16,7 @@ type Authenticator struct {
 }
 
 // New instantiates the *Authenticator.
-func New() (*Authenticator, error) {
+func NewOidc() (*Authenticator, error) {
 	provider, err := oidc.NewProvider(
 		context.Background(),
 		AppConfig.Oidc.Issuer,
@@ -35,6 +36,22 @@ func New() (*Authenticator, error) {
 	return &Authenticator{
 		Provider: provider,
 		Config:   conf,
+	}, nil
+}
+
+// New instantiates the *Authenticator.
+func NewOAuth2() (*Authenticator, error) {
+
+	conf := oauth2.Config{
+		RedirectURL:  AppConfig.Oauth2.RedirectUrl,
+		ClientID:     AppConfig.Oauth2.ClientId,
+		ClientSecret: AppConfig.Oauth2.ClientSecret,
+		Endpoint:     endpoints.AzureAD(AppConfig.Oauth2.Tenant),
+		Scopes:       AppConfig.Oauth2.Scopes,
+	}
+
+	return &Authenticator{
+		Config: conf,
 	}, nil
 }
 

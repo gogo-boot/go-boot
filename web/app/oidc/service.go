@@ -19,7 +19,7 @@ import (
 
 func Routes(rg *gin.RouterGroup) {
 
-	auth, err := authenticator.New()
+	auth, err := authenticator.NewOidc()
 	if err != nil {
 		log.Fatalf("Failed to initialize the authenticator: %v", err)
 	}

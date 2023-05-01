@@ -1,123 +1,180 @@
 package oauth2
 
 import (
-	"context"
+	"crypto/rand"
+	"encoding/base64"
+	"encoding/json"
+	"example.com/go-boot/platform/authenticator"
 	. "example.com/go-boot/platform/config"
-	"example.com/go-boot/platform/initializer"
+	"example.com/go-boot/platform/middleware"
 	"fmt"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/endpoints"
 	"io"
 	"net/http"
-	"time"
+	"net/url"
 )
 
-var (
-	oauthConfig *oauth2.Config
-)
-var ctx = context.Background()
+func Routes(rg *gin.RouterGroup) {
 
-func init() {
-	Routes(initializer.Router.Group("/login"))
+	auth, err := authenticator.NewOAuth2()
+	if err != nil {
+		log.Fatalf("Failed to initialize the authenticator: %v", err)
+	}
+
+	rg.GET("/", showIndex)
+	rg.GET("/loginHome", showHome)
+	rg.GET("/login", loginHandler(auth))
+	rg.GET("/oauth2/code/dbwebsso", callBackHandler(auth))
+	rg.GET("/user", middleware.IsAuthenticated, showUserInfo)
+	rg.GET("/logout", logoutHandler)
+	rg.GET("/info", showTokenInfo)
+	rg.GET("/external", getExternalSite(auth))
 }
-func init() {
-	oauthConfig = &oauth2.Config{
-		RedirectURL:  AppConfig.Oauth2.RedirectUrl,
-		ClientID:     AppConfig.Oauth2.ClientId,
-		ClientSecret: AppConfig.Oauth2.ClientSecret,
-		Scopes:       AppConfig.Oauth2.Scopes,
-		// Todo not only for Azure Endpoint
-		Endpoint: endpoints.AzureAD(AppConfig.Oauth2.Tenant),
+
+func logoutHandler(ctx *gin.Context) {
+
+	logoutUrl, err := url.Parse("https://login.microsoftonline.com/a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd/oauth2/v2.0/logout")
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	scheme := "http"
+	if ctx.Request.TLS != nil {
+		scheme = "https"
+	}
+
+	returnTo, err := url.Parse(scheme + "://" + ctx.Request.Host)
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	parameters := url.Values{}
+	parameters.Add("returnTo", returnTo.String())
+	parameters.Add("client_id", AppConfig.Oidc.ClientId)
+	logoutUrl.RawQuery = parameters.Encode()
+
+	session := sessions.Default(ctx)
+	session.Clear()
+
+	ctx.Redirect(http.StatusTemporaryRedirect, logoutUrl.String())
+}
+
+// Handler for our login.
+func loginHandler(auth *authenticator.Authenticator) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		state, err := generateRandomState()
+		if err != nil {
+			ctx.String(http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		// Save the state inside the session.
+		session := sessions.Default(ctx)
+		session.Set("state", state)
+		if err := session.Save(); err != nil {
+			ctx.String(http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		ctx.Redirect(http.StatusTemporaryRedirect, auth.AuthCodeURL(state))
 	}
 }
 
-var (
-	// TODO: randomize it
-	oauthStateString = "pseudo-random"
-)
+func generateRandomState() (string, error) {
+	b := make([]byte, 32)
+	_, err := rand.Read(b)
+	if err != nil {
+		return "", err
+	}
 
-type UserInfo struct {
-	accessTokenSub        string
-	idTokenName           string
-	accessTokenExpiration time.Time
-	idTokenExpiration     time.Time
-	idTokenValue          string
-	accessTokenValue      string
-}
+	state := base64.StdEncoding.EncodeToString(b)
 
-type WebSSO struct {
-	State        string `form:"state"`
-	Code         string `form:"code"`
-	SessionState string `form:"session_state"`
-}
-
-var token *oauth2.Token
-
-var webSSO WebSSO
-
-func Routes(rg *gin.RouterGroup) {
-	rg.GET("/", showIndex)
-	rg.GET("/login", login)
-	rg.GET("/logout", logout)
-	rg.GET("/oauth2/code/dbwebsso", loginProcess)
-	rg.GET("/info", showTokenInfo)
-	rg.GET("/external", getExternalSite)
-}
-
-func logout(c *gin.Context) {
-	c.SetCookie("JSESSIONID", "", 0, "/", "localhost", false, false)
-	c.HTML(http.StatusOK, "logout.html", gin.H{})
-}
-
-func login(c *gin.Context) {
-	url := oauthConfig.AuthCodeURL(oauthStateString, oauth2.AccessTypeOnline)
-	c.Redirect(http.StatusTemporaryRedirect, url)
+	return state, nil
 }
 
 func showIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "login.html", gin.H{})
+	c.HTML(http.StatusOK, "login.html", nil)
 }
-func loginProcess(c *gin.Context) {
-	if c.Bind(&webSSO) == nil {
 
-		if webSSO.State != oauthStateString {
-			fmt.Errorf("invalid oauth State")
+func showHome(c *gin.Context) {
+	c.HTML(http.StatusOK, "home.html", nil)
+}
+
+// Handler for our callback.
+func callBackHandler(auth *authenticator.Authenticator) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		session := sessions.Default(ctx)
+		if ctx.Query("state") != session.Get("state") {
+			ctx.String(http.StatusBadRequest, "Invalid state parameter.")
+			return
 		}
-		var err error
-		token, err = oauthConfig.Exchange(ctx, webSSO.Code)
+
+		// Exchange an authorization code for a token.
+		token, err := auth.Exchange(ctx.Request.Context(), ctx.Query("code"))
 		if err != nil {
-			fmt.Errorf("code exchange failed: %s", err.Error())
+			ctx.String(http.StatusUnauthorized, "Failed to convert an authorization code into a token.")
+			return
 		}
 
-		response := fmt.Sprintf("<html><body>Login Success and Retriving token is successful<br/></body></html>")
-		c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
+		session.Set("token", token)
+		if err := session.Save(); err != nil {
+			ctx.String(http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		// Redirect to logged in page.
+		ctx.Redirect(http.StatusTemporaryRedirect, "/login/user")
 	}
 }
-func showTokenInfo(c *gin.Context) {
 
-	response := fmt.Sprintf("<html><body>accesstoken : %s<br/>"+
-		"refreshtoken : %s<br/>"+
-		"tokentype: %s<br/>"+
-		"tokenexpiry : %s<br/></body></html>", token.AccessToken, token.RefreshToken, token.TokenType, token.Expiry)
-	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(response))
+// Handler for our logged-in user page.
+func showUserInfo(ctx *gin.Context) {
+	session := sessions.Default(ctx)
+	profile := session.Get("profile")
+
+	// convert struct to map
+	var myMap map[string]interface{}
+	data, _ := json.Marshal(profile)
+	json.Unmarshal(data, &myMap)
+
+	ctx.HTML(http.StatusOK, "user.html", myMap)
 }
-func getExternalSite(c *gin.Context) {
-	if webSSO.State != oauthStateString {
-		fmt.Errorf("invalid oauth State")
-	}
 
-	client := oauthConfig.Client(ctx, token)
-	response, err := client.Get("https://gateway.hub.db.de/bizhub-api-secured-with-jwt")
+func showTokenInfo(ctx *gin.Context) {
+	session := sessions.Default(ctx)
+	sessionToken := session.Get("token")
+	token := sessionToken.(oauth2.Token)
 
-	if err != nil {
-		fmt.Errorf("failed getting user info: %s", err.Error())
-	}
-	defer response.Body.Close()
-	contents, err := io.ReadAll(response.Body)
-	if err != nil {
-		fmt.Errorf("failed reading response body: %s", err.Error())
-	}
-	c.Data(http.StatusOK, "text/html; charset=utf-8", contents)
+	ctx.HTML(http.StatusOK, "tokeninfo.html", gin.H{
+		"accessToken":  token.AccessToken,
+		"refreshToken": token.RefreshToken,
+		"tokenType":    token.TokenType,
+		"tokenExpiry":  token.Expiry,
+	})
+}
 
+func getExternalSite(auth *authenticator.Authenticator) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		session := sessions.Default(ctx)
+		sessionToken := session.Get("token")
+		token := sessionToken.(oauth2.Token)
+
+		client := auth.Config.Client(ctx, &token)
+		response, err := client.Get("https://gateway.hub.db.de/bizhub-api-secured-with-jwt")
+
+		if err != nil {
+			fmt.Errorf("failed getting user info: %s", err.Error())
+		}
+		defer response.Body.Close()
+		contents, err := io.ReadAll(response.Body)
+		if err != nil {
+			fmt.Errorf("failed reading response body: %s", err.Error())
+		}
+		ctx.Data(http.StatusOK, "text/html; charset=utf-8", contents)
+	}
 }
