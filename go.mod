@@ -1,4 +1,4 @@
-module example.com/go-boot
+module gogo-boot/go-boot
 
 go 1.20
 

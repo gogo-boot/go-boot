@@ -2,13 +2,13 @@ package initializer
 
 import (
 	"encoding/gob"
-	. "example.com/go-boot/platform/config"
-	"example.com/go-boot/platform/middleware"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/memstore"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+	. "gogo-boot/go-boot/platform/config"
+	"gogo-boot/go-boot/platform/middleware"
 	"golang.org/x/oauth2"
 )
 
