@@ -7,7 +7,7 @@ require (
 	github.com/coreos/go-oidc/v3 v3.6.0
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.9.1
-	github.com/gookit/config/v2 v2.2.1
+	github.com/gookit/config/v2 v2.2.2
 	github.com/sirupsen/logrus v1.9.3
 	github.com/vektah/gqlparser/v2 v2.5.1
 	golang.org/x/oauth2 v0.8.0
@@ -29,8 +29,7 @@ require (
 	github.com/goccy/go-yaml v1.11.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/gookit/color v1.5.3 // indirect
-	github.com/gookit/goutil v0.6.8 // indirect
-	github.com/gookit/ini/v2 v2.2.2 // indirect
+	github.com/gookit/goutil v0.6.9 // indirect
 	github.com/gorilla/context v1.1.1 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/gorilla/sessions v1.2.1 // indirect
@@ -57,7 +56,7 @@ require (
 	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/mod v0.10.0 // indirect
 	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sync v0.1.0 // indirect
+	golang.org/x/sync v0.2.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/term v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
