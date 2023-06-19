@@ -50,5 +50,5 @@ func init() {
 	gob.Register(oauth2.Token{})
 
 	store := memstore.NewStore([]byte("secret"))
-	Router.Use(sessions.Sessions("auth-session", store))
+	Router.Use(sessions.Sessions("authz-session", store))
 }
