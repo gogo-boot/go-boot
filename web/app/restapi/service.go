@@ -106,4 +106,12 @@ func Routes(rg *gin.RouterGroup) {
 		// Will output  :   {"user": "Lena", "Message": "hey", "Number": 123}
 		c.JSON(http.StatusOK, msg)
 	})
+
+	rg.GET("/authorized", func(c *gin.Context) {
+		c.YAML(http.StatusOK, gin.H{"message": "hey", "status": http.StatusOK})
+	})
+
+	rg.GET("/unauthorized", func(c *gin.Context) {
+		c.YAML(http.StatusOK, gin.H{"message": "hey", "status": http.StatusOK})
+	})
 }

@@ -4,6 +4,7 @@ import (
 	"encoding/gob"
 	. "example.com/go-boot/platform/config"
 	"example.com/go-boot/platform/middleware"
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/memstore"
 	"github.com/gin-gonic/gin"
@@ -24,7 +25,11 @@ func init() {
 	// Router = gin.Default() // Default Mode
 	Router = gin.New()
 	Router.Use(gin.Recovery())
-	Router.Use(middleware.LoggingMiddleware())
+
+	// Create Casbin Enforcer
+	e, _ := casbin.NewEnforcer("/config/authz_model.conf", "/config/authz_policy.csv")
+
+	Router.Use(middleware.LoggingMiddleware(), middleware.NewAuthorizer(e))
 
 	// Load HTML Template
 	Router.LoadHTMLGlob("web/template/*")
