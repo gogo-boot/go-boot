@@ -14,7 +14,7 @@ _.goreleaser.yaml_ file for further build and package automation.
 brew install goenv goreleaser
 goenv install 1.20.1
 goenv global 1.20.1
-git clone git@github.com:mgcos1231/go-boot.git
+git clone git@github.com:gogo-boot/go-boot.git
 cd go-boot && go mod tidy && go run .
 ```
 
@@ -44,7 +44,7 @@ goreleaser release --clean
 
 ## Running
 ```bash
-docker run -p 8080:8080 mgcos1231/go-boot 
+docker run -p 8080:8080 gogo-boot/go-boot 
 ```
 
 ## Source code start point
