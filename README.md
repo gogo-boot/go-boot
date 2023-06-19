@@ -115,7 +115,7 @@ below.
 
 [Gin Web Framework](https://github.com/gin-gonic/gin)
 
-[Go Graphql Framework / graphql-go](https://github.com/graph-gophers/graphql-go)
+[Go Graphql Framework / gqlgen](https://github.com/99designs/gqlgen)
 
 [Authorization Code Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow)
 
