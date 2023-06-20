@@ -1,16 +1,17 @@
 package main
 
 import (
-	"example.com/go-boot/platform/actuator"
-	. "example.com/go-boot/platform/config"
-	. "example.com/go-boot/platform/initializer"
-	"example.com/go-boot/web/app/graph"
-	_ "example.com/go-boot/web/app/oauth2"
-	"example.com/go-boot/web/app/oidc"
-	"example.com/go-boot/web/app/openapi"
-	"example.com/go-boot/web/app/restapi"
-	"example.com/go-boot/web/app/sse"
 	"github.com/gin-gonic/gin"
+	"gogo-boot/go-boot/platform/actuator"
+	. "gogo-boot/go-boot/platform/config"
+	. "gogo-boot/go-boot/platform/initializer"
+	"gogo-boot/go-boot/web/app/authz"
+	"gogo-boot/go-boot/web/app/graph"
+	_ "gogo-boot/go-boot/web/app/oauth2"
+	"gogo-boot/go-boot/web/app/oidc"
+	"gogo-boot/go-boot/web/app/openapi"
+	"gogo-boot/go-boot/web/app/restapi"
+	"gogo-boot/go-boot/web/app/sse"
 	"net/http"
 )
 
@@ -26,6 +27,7 @@ func main() {
 	oidc.Routes(Router.Group("/login"))
 	sse.Routes(Router.Group("/sse"))
 	actuator.Routes(Router.Group("/actuator"))
+	authz.Routes(Router.Group("/authz"))
 
 	//Todo set Host - only for local test
 	Router.Run(AppConfig.Server.Host + ":" + AppConfig.Server.PortNumber)

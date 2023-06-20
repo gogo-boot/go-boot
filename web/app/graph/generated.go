@@ -7,12 +7,11 @@ import (
 	"context"
 	"embed"
 	"errors"
-	"example.com/go-boot/web/app/graph/model"
 	"fmt"
 	"strconv"
 	"sync"
 	"sync/atomic"
-
+	"gogo-boot/go-boot/web/app/graph/model"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"

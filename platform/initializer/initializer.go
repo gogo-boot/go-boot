@@ -2,12 +2,14 @@ package initializer
 
 import (
 	"encoding/gob"
-	. "example.com/go-boot/platform/config"
-	"example.com/go-boot/platform/middleware"
+	"fmt"
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/memstore"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+	. "gogo-boot/go-boot/platform/config"
+	"gogo-boot/go-boot/platform/middleware"
 	"golang.org/x/oauth2"
 )
 
@@ -24,7 +26,14 @@ func init() {
 	// Router = gin.Default() // Default Mode
 	Router = gin.New()
 	Router.Use(gin.Recovery())
-	Router.Use(middleware.LoggingMiddleware())
+
+	// Create Casbin Enforcer
+	e, err := casbin.NewEnforcer("platform/config/authz_model.conf", "platform/config/authz_policy.csv")
+
+	if err != nil {
+		panic(fmt.Sprintf("failed to create casbin enforcer: %v", err))
+	}
+	Router.Use(middleware.LoggingMiddleware(), middleware.NewAuthorizer(e))
 
 	// Load HTML Template
 	Router.LoadHTMLGlob("web/template/*")
@@ -45,5 +54,5 @@ func init() {
 	gob.Register(oauth2.Token{})
 
 	store := memstore.NewStore([]byte("secret"))
-	Router.Use(sessions.Sessions("auth-session", store))
+	Router.Use(sessions.Sessions("authz-session", store))
 }

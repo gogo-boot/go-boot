@@ -1,12 +1,12 @@
 
 ## Description
 It is a simple web template project, which is written in Go with popular go frameworks.
-It uses these frameworks. Gin/ Logrus/ Gqlgen/ Oauth2, OIDC for Go/ Casbin/ GoReleaser
+It uses these frameworks. Gin/ Logrus/ Gqlgen/ Oauth2, OIDC, Casbin, GoReleaser
 
 This template shows how to use RestAPI, Graphql, Oauth2, Authentication, Authorization, Database Connection, 
 and build and packaging.
 
-It will build and package the binary in Docker Image. You can configure  
+It will build and package in Docker Image. You can configure  
 _.goreleaser.yaml_ file for further build and package automation. 
 
 ## Prepare Running environment
@@ -14,15 +14,20 @@ _.goreleaser.yaml_ file for further build and package automation.
 brew install goenv goreleaser
 goenv install 1.20.1
 goenv global 1.20.1
-git clone git@github.com:mgcos1231/go-boot.git
+git clone git@github.com:gogo-boot/go-boot.git
 cd go-boot && go mod tidy && go run .
 ```
 
-## Configure
-you can configure server port, loglevel, oauth2 endpoints, oidc endpoints
+## Configuration
+### Web Application
+you can configure the web application.
 ```bash
 vi platform/config/config.yml
-
+```
+### Go Releaser
+you can configure releasement
+```bash
+vi .goreleaser.yaml
 ```
 ## Build 
 ```bash
@@ -44,7 +49,7 @@ goreleaser release --clean
 
 ## Running
 ```bash
-docker run -p 8080:8080 mgcos1231/go-boot 
+docker run -p 8080:8080 gogo-boot/go-boot 
 ```
 
 ## Source code start point
@@ -70,6 +75,7 @@ then the unused framework will be removed and the build package will be slimmer.
 - Security
   - Oauth2
   - OIDC
+  - User Authorization
 - Configuration
 - Multi architect build 
 - Dockerizing
@@ -96,20 +102,20 @@ you can open *.http files with IntelliJ and send http request or test by clickin
 ## Roadmap
 - DB Connection 
 - Implement OIDC Logout
-- Implement Role based authorization (Casbin)
 - Add Unit Test
 - CICD automation
 - Refactorings 
 - Documentation
+- Publish Metrics
 - Release 1.0
 
 ## Reference 
 If you like to change configuration or extend it, you can read further document
-from the following reference site.
+below.
 
 [Gin Web Framework](https://github.com/gin-gonic/gin)
 
-[Go Graphql Framework / graphql-go](https://github.com/graph-gophers/graphql-go)
+[Go Graphql Framework / gqlgen](https://github.com/99designs/gqlgen)
 
 [Authorization Code Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow)
 
@@ -128,3 +134,7 @@ from the following reference site.
 [Go Config](https://github.com/gookit/config)
 
 [Logrus Logging](https://github.com/sirupsen/logrus)
+
+[Casbin Access Control Model](https://articles.wesionary.team/understanding-casbin-with-different-access-control-model-configurations-faebc60f6da5)
+
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)

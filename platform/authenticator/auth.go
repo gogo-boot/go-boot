@@ -3,8 +3,8 @@ package authenticator
 import (
 	"context"
 	"errors"
-	. "example.com/go-boot/platform/config"
 	"github.com/coreos/go-oidc/v3/oidc"
+	. "gogo-boot/go-boot/platform/config"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/endpoints"
 )

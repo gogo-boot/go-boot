@@ -1,9 +1,10 @@
-module example.com/go-boot
+module gogo-boot/go-boot
 
 go 1.20
 
 require (
 	github.com/99designs/gqlgen v0.17.33
+	github.com/casbin/casbin/v2 v2.71.1
 	github.com/coreos/go-oidc/v3 v3.6.0
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.9.1
@@ -14,6 +15,7 @@ require (
 )
 
 require (
+	github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect

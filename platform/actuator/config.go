@@ -1,8 +1,8 @@
 package actuator
 
 import (
-	myConfig "example.com/go-boot/platform/config"
 	"github.com/gin-gonic/gin"
+	myConfig "gogo-boot/go-boot/platform/config"
 	"net/http"
 )
 

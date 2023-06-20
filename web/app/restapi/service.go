@@ -106,4 +106,5 @@ func Routes(rg *gin.RouterGroup) {
 		// Will output  :   {"user": "Lena", "Message": "hey", "Number": 123}
 		c.JSON(http.StatusOK, msg)
 	})
+
 }
