@@ -36,7 +36,7 @@ archives:
       - goos: windows
         format: zip
     files:
-      - platform/config/config.yml
+      - platform/config/*
       - LICENSE
 #      - README_{{.Os}}.md
 #      - CHANGELOG.md
@@ -81,7 +81,7 @@ dockers:
     push_flags:
       - --tls-verify=false
     extra_files:
-      - platform/config/config.yml
+      - platform/config
       - web/template
   -
     goos: linux
@@ -105,7 +105,7 @@ dockers:
     push_flags:
       - --tls-verify=false
     extra_files:
-      - platform/config/config.yml
+      - platform/config
       - web/template
 docker_manifests:
   - name_template: "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Version }}"
