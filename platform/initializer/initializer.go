@@ -2,6 +2,7 @@ package initializer
 
 import (
 	"encoding/gob"
+	"fmt"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/memstore"
@@ -30,7 +31,7 @@ func init() {
 	e, err := casbin.NewEnforcer("platform/config/authz_model.conf", "platform/config/authz_policy.csv")
 
 	if err != nil {
-		panic(err)
+		panic(fmt.Sprintf("failed to create casbin enforcer: %v", err))
 	}
 	Router.Use(middleware.LoggingMiddleware(), middleware.NewAuthorizer(e))
 
