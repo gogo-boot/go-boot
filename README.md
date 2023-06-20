@@ -136,3 +136,5 @@ below.
 [Logrus Logging](https://github.com/sirupsen/logrus)
 
 [Casbin Access Control Model](https://articles.wesionary.team/understanding-casbin-with-different-access-control-model-configurations-faebc60f6da5)
+
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
