@@ -1,5 +1,5 @@
 FROM gcr.io/distroless/static-debian11
-COPY config/config.yml config/config.yml
-COPY template/* template/
+COPY platform/config/* platform/config/
+COPY web/template/* web/template/
 COPY go-boot /
 ENTRYPOINT ["/go-boot"]
