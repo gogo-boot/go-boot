@@ -1,5 +1,6 @@
 server:
-  host: 0.0.0.0   # The host should be "0.0.0.0 in Docker Container
+#  host: 0.0.0.0   # The host should be "0.0.0.0 in Docker Container
+  host: localhost   # The host should be "0.0.0.0 in Docker Container
   portNumber: 8080
   logLevel: info
 

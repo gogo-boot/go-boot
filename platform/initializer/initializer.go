@@ -27,8 +27,11 @@ func init() {
 	Router.Use(gin.Recovery())
 
 	// Create Casbin Enforcer
-	e, _ := casbin.NewEnforcer("/config/authz_model.conf", "/config/authz_policy.csv")
+	e, err := casbin.NewEnforcer("platform/config/authz_model.conf", "platform/config/authz_policy.csv")
 
+	if err != nil {
+		panic(err)
+	}
 	Router.Use(middleware.LoggingMiddleware(), middleware.NewAuthorizer(e))
 
 	// Load HTML Template
