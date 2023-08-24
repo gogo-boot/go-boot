@@ -36,13 +36,13 @@ archives:
       - goos: windows
         format: zip
     files:
-      - config/config.yml
+      - platform/config/*
       - LICENSE
 #      - README_{{.Os}}.md
 #      - CHANGELOG.md
 #      - docs/*
 #      - design/*.png
-      - template/*
+      - web/template/*
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -81,8 +81,8 @@ dockers:
     push_flags:
       - --tls-verify=false
     extra_files:
-      - config/config.yml
-      - template
+      - platform/config
+      - web/template
   -
     goos: linux
     goarch: arm64
@@ -105,8 +105,8 @@ dockers:
     push_flags:
       - --tls-verify=false
     extra_files:
-      - config/config.yml
-      - template
+      - platform/config
+      - web/template
 docker_manifests:
   - name_template: "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Version }}"
     image_templates:

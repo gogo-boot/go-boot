@@ -94,6 +94,12 @@ openapi-generator-cli generate -i petstore.yaml -g go-gin-server -o ./opeapi-gen
 --additional-properties=apiPath=openapi,packageName=openapi
 ```
 
+```azure
+10124  set -o allexport
+10125  source test.env
+10126  set +o allexport
+10127  ./dist/go-boot_darwin_amd64_v3/go-boot
+```
 adjust router group in the main.go file.
 
 ## Http Endpoints & Integration Test
