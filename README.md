@@ -24,8 +24,13 @@ you can configure the web application.
 ```bash
 vi platform/config/config.yml
 ```
+### Casbin Policy
+```bash
+vi platform/config/authz_model.conf
+vi platform/config/authz_policy.csv
+```
 ### Go Releaser
-you can configure releasement
+you can configure the releaser
 ```bash
 vi .goreleaser.yaml
 ```
@@ -94,11 +99,11 @@ openapi-generator-cli generate -i petstore.yaml -g go-gin-server -o ./opeapi-gen
 --additional-properties=apiPath=openapi,packageName=openapi
 ```
 
-```azure
-10124  set -o allexport
-10125  source test.env
-10126  set +o allexport
-10127  ./dist/go-boot_darwin_amd64_v3/go-boot
+```bash
+set -o allexport
+source test.env
+set +o allexport
+./dist/go-boot_darwin_amd64_v3/go-boot
 ```
 adjust router group in the main.go file.
 
