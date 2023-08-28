@@ -70,7 +70,7 @@ dockers:
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-amd64"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
     skip_push: false
-    use: buildx
+    use: docker
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -94,7 +94,7 @@ dockers:
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}-arm64v8"
       - "docker.io/mgcos1231/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
     skip_push: false
-    use: buildx
+    use: docker
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
