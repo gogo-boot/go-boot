@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/99designs/gqlgen v0.17.36
-	github.com/casbin/casbin/v2 v2.77.1
+	github.com/casbin/casbin/v2 v2.77.2
 	github.com/coreos/go-oidc/v3 v3.6.0
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.9.1
