@@ -3,16 +3,18 @@ module gogo-boot/go-boot
 go 1.20
 
 require (
-	github.com/99designs/gqlgen v0.17.36
+	github.com/99designs/gqlgen v0.17.38
 	github.com/casbin/casbin/v2 v2.77.1
 	github.com/coreos/go-oidc/v3 v3.6.0
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.9.1
 	github.com/gookit/config/v2 v2.2.3
 	github.com/sirupsen/logrus v1.9.3
-	github.com/vektah/gqlparser/v2 v2.5.8
+	github.com/vektah/gqlparser/v2 v2.5.10
 	golang.org/x/oauth2 v0.11.0
 )
+
+require github.com/google/uuid v1.3.0 // indirect
 
 require (
 	github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible // indirect
