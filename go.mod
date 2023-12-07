@@ -3,7 +3,7 @@ module gogo-boot/go-boot
 go 1.20
 
 require (
-	github.com/99designs/gqlgen v0.17.36
+	github.com/99designs/gqlgen v0.17.41
 	github.com/casbin/casbin/v2 v2.79.0
 	github.com/coreos/go-oidc/v3 v3.8.0
 	github.com/gin-contrib/sessions v0.0.5
@@ -14,7 +14,11 @@ require (
 	golang.org/x/oauth2 v0.13.0
 )
 
-require github.com/casbin/govaluate v1.1.0 // indirect
+require (
+	github.com/casbin/govaluate v1.1.0 // indirect
+	github.com/google/uuid v1.3.0 // indirect
+	github.com/sosodev/duration v1.1.0 // indirect
+)
 
 require (
 	github.com/agnivade/levenshtein v1.1.1 // indirect
