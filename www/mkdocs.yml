@@ -41,19 +41,6 @@ theme:
 
 plugins:
   - search
-  - redirects:
-      redirect_maps:
-        discord.md: https://discord.gg/rYWM4AZvy7
-        github.md: https://github.com/gogo-boot/go-boot
-        linkedin.md:
-        mastodon.md:
-        twitter.md:
-        d.md:
-        g.md:
-        l.md:
-        m.md:
-        t.md:
-        "customization/build.md": customization/builds.md
   - minify:
       minify_html: true
   - tags
