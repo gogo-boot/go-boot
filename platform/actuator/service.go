@@ -7,6 +7,6 @@ import (
 func Routes(rg *gin.RouterGroup) {
 	rg.GET("/health", health)
 	rg.GET("/mem", mem)
-	// Todo mask security relevant properties
+	// Todo mask security.md relevant properties
 	rg.GET("/config", config)
 }

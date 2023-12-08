@@ -1,0 +1,61 @@
+
+## Configuration
+the configituration file is located under `platform/config/config.yml`
+
+## using environment variable
+environment variables can be used in `config.yml` file.
+put `${env_name}` as a placeholder
+
+### Example
+dev.env file
+```text 
+CLIENT_ID=clientA
+CLIENT_SECRET=clientSecret
+```
+
+config.yaml file
+```shell
+  clientId: ${CLIENT_ID}
+  clientSecret: ${CLIENT_SECRET}
+```
+the `CLIENT_ID` and `CLIENT_SECRET` value will be replaced by environment variable
+
+
+## configure server host and portnumber
+```yaml
+server:
+  host: 0.0.0.0   # The host should be "0.0.0.0 in Docker Container
+#  host: localhost   # The host should be "0.0.0.0 in Docker Container
+  portNumber: 8080
+  logLevel: info
+```
+
+## oauth2 
+configuration example
+```yaml
+oauth2:
+  redirectUrl:  "http://localhost:8080/login/oauth2/code/dbwebsso"
+  clientId: ${CLIENT_ID}
+  clientSecret: ${CLIENT_SECRET}
+  scopes:
+    - "54f98af6-5da1-4d54-8610-8fad122aa628/.default"
+    - "openid"
+    - "profile"
+    - "email"
+  tenant: "a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd"
+```
+
+## oidc
+configuration example
+```yaml
+oidc:
+redirectUrl:  "http://localhost:8080/login/oauth2/code/dbwebsso"
+clientId: ${CLIENT_ID}
+clientSecret: ${CLIENT_SECRET}
+scopes:
+- "54f98af6-5da1-4d54-8610-8fad122aa628/.default"
+- "openid"
+- "profile"
+- "email"
+issuer: "https://login.microsoftonline.com/a1a72d9c-49e6-4f6d-9af6-5aafa1183bfd/v2.0"  #/.well-known/openid-configuration
+```
