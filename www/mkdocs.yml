@@ -57,13 +57,6 @@ plugins:
   - minify:
       minify_html: true
   - tags
-  # - meta
-  - blog:
-      post_url_format: "{slug}"
-  - rss:
-      match_path: blog/posts/.*
-      date_from_meta:
-        as_creation: date
 
 nav:
   - Home: index.md
