@@ -3,7 +3,7 @@ module gogo-boot/go-boot
 go 1.20
 
 require (
-	github.com/99designs/gqlgen v0.17.41
+	github.com/99designs/gqlgen v0.17.42
 	github.com/casbin/casbin/v2 v2.79.0
 	github.com/coreos/go-oidc/v3 v3.8.0
 	github.com/gin-contrib/sessions v0.0.5
